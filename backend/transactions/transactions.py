@@ -2,22 +2,24 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import boto3
 import uuid
-
-
+from dotenv import load_dotenv
+import os
 app = Flask(__name__)
 CORS(app)
 
+load_dotenv()
+# Configs for dynamodb
 dynamodb = boto3.resource(
   'dynamodb',
- region_name='ap-southeast-1',
-  aws_access_key_id='',
-  aws_secret_access_key='')
+   region_name=os.environ.get('REGION'),
+  aws_access_key_id=os.environ.get('ACCESS_KEY'),
+  aws_secret_access_key=os.environ.get('SECRET_KEY'))
 
 connection = boto3.client(
   'dynamodb',
-  region_name='ap-southeast-1',
-  aws_access_key_id='',
-  aws_secret_access_key='')
+  region_name=os.environ.get('REGION'),
+  aws_access_key_id=os.environ.get('ACCESS_KEY'),
+  aws_secret_access_key=os.environ.get('SECRET_KEY'))
 
 transactions_table = dynamodb.Table('transactions')
 
