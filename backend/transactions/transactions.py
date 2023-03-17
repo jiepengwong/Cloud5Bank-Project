@@ -4,6 +4,8 @@ import boto3
 import uuid
 from dotenv import load_dotenv
 import os
+from datetime import datetime
+
 app = Flask(__name__)
 CORS(app)
 
@@ -43,13 +45,21 @@ def get_all_accounts():
 def createTransaction(): 
     data = request.json
     transaction_id = str(uuid.uuid4())
+    now = datetime.now()
+    now_str = now.strftime('%Y-%m-%d %H:%M:%S')
+    print(now_str)
 
     transaction = {
-        'id': transaction_id,
-        'bankAccountNumber':  data['bankAccountNumber'],
+        'transaction_id': transaction_id,
+        'fromAccountUserId': data['fromAccountUserId'],
+        'fromAccountBankNumber': data['fromAccountBankNumber'],
         'transactiontype' : data['transactiontype'],
-        'amount': data['amount']
+        'toAccountUserId': data['toAccountUserId'],
+        'toAccountBankNumber': data['toAccountBankNumber'],
+        'amount': data['amount'],
+        'dateTransaction': now_str
     }
+
 
     transactions_table.put_item(Item=transaction)
 

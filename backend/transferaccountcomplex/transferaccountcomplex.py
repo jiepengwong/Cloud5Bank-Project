@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 details_bankaccount_URL = "http://localhost:5000/bankaccounts"
 balance_bankaccount_URL = "http://localhost:5000/bankAccountBalance"
-transaction_URL = "http://localhost:5001/createtransaction"
+transaction_URL = "http://localhost:5001/createTransactionLog"
 
 
 
@@ -35,7 +35,9 @@ def transferfunds():
         # do the actual work
         # 1. Send order info {cart items}
         result = processTransfer(data["amount"],data["fromAccountUserid"], data["toAccountUserid"])
-        return jsonify(result), 200
+        # Returns a tuple
+        jsonobject = result[0].json
+        return jsonify(jsonobject), 200
 
 def processTransfer(amount, fromAccountID, toAccountID):
 
@@ -72,6 +74,19 @@ def processTransfer(amount, fromAccountID, toAccountID):
 
 
     # Create the relevant transactions
+
+    # Create transaction for fromAccountID
+    transaction_json_data_fromaccount = json.dumps({'fromAccountUserId': fromAccountID , 'fromAccountBankNumber': fromAccount['accountnumber'], 'transactiontype': "transferred" , 'toAccountUserId': toAccountID, 'toAccountBankNumber': toAccount['accountnumber'], 'amount': amount})
+    print(transaction_json_data_fromaccount)
+    fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_fromaccount))
+
+    # # Create transaction for toAccountID
+    # transaction_json_data_toaccount = json.dumps({'fromAccountUserId': toAccountID , 'fromAccountBankNumber': toAccount['accountnumber'], 'transactiontype': "received" , 'toAccountUserId': fromAccountID, 'toAccountBankNumber': fromAccount['accountnumber'], 'amount': amount})
+    # toAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_toaccount))
+
+    return jsonify({'Message': 'Successfully transferred','amount': amount, 'fromAccount':updateFromAccount,'toAccount': toAccount, 'transaction': fromAccountTransaction }), 200
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003, debug=True)
