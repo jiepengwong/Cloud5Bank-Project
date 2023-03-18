@@ -62,7 +62,7 @@ def create_account():
     # user_account_id = str(uuid.uuid4())
 
     # Generate new account for each user
-    accountnumber = str(uuid.uuid4())
+    bankaccountnumber = str(uuid.uuid4())
 
     # Check if the user ID already exists in the table
     response = bank_accounts_table.get_item(Key={'user_account_id': user_account_id})
@@ -72,7 +72,7 @@ def create_account():
     # Create a new account in DynamoDB
     account = {
         'user_account_id': data["user_account_id"], # From cognito side? can hardcode
-        'accountnumber': accountnumber,
+        'bankaccountnumber': bankaccountnumber,
         'name': data['name'],
         'email': data['email'],
         "balance": 0,
@@ -82,7 +82,7 @@ def create_account():
     print(account)
     bank_accounts_table.put_item(Item=account)
 
-    return jsonify({'accountnumber': accountnumber, 'message': "Banking account successfully created"}, 201)
+    return jsonify({'bankaccountnumber': bankaccountnumber, 'message': "Banking account successfully created"}), 200
 
 
 # [PUT] Put routes

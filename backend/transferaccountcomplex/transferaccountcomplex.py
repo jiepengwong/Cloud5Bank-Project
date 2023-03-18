@@ -76,7 +76,7 @@ def processTransfer(amount, fromAccountID, toAccountID):
     # Create the relevant transactions
 
     # Create transaction for fromAccountID
-    transaction_json_data_fromaccount = json.dumps({'fromAccountUserId': fromAccountID , 'fromAccountBankNumber': fromAccount['accountnumber'], 'transactiontype': "transferred" , 'toAccountUserId': toAccountID, 'toAccountBankNumber': toAccount['accountnumber'], 'amount': amount})
+    transaction_json_data_fromaccount = json.dumps({'fromAccountUserId': fromAccountID , 'fromAccountBankNumber': fromAccount['bankaccountnumber'], 'transactiontype': "transferred" , 'toAccountUserId': toAccountID, 'toAccountBankNumber': toAccount['bankaccountnumber'], 'amount': amount})
     print(transaction_json_data_fromaccount)
     fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_fromaccount))
 
@@ -84,7 +84,7 @@ def processTransfer(amount, fromAccountID, toAccountID):
     # transaction_json_data_toaccount = json.dumps({'fromAccountUserId': toAccountID , 'fromAccountBankNumber': toAccount['accountnumber'], 'transactiontype': "received" , 'toAccountUserId': fromAccountID, 'toAccountBankNumber': fromAccount['accountnumber'], 'amount': amount})
     # toAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_toaccount))
 
-    return jsonify({'Message': 'Successfully transferred','amount': amount, 'fromAccount':updateFromAccount,'toAccount': toAccount, 'transaction': fromAccountTransaction }), 200
+    return jsonify({'message': 'Successfully transferred','amount': amount, 'fromAccount':updateFromAccount,'toAccount': toAccount, 'transaction': fromAccountTransaction }), 200
 
 
 
