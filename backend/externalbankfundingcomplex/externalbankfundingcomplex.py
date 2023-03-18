@@ -49,8 +49,46 @@ def processTransferDeposit(fundsFromBank, user_account_id):
     print("========= Creating Transaction ==========")
     transaction_json_data_useraccount = json.dumps({'fromAccountUserId': None , 'fromAccountBankNumber': None, 'transactiontype': "Deposited From External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsFromBank})
     fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_useraccount))
-    return jsonify({'message': 'Successfully deposited from external bank!','user_account_id': user_account_id, "bankaccountnumber": userAccount['bankaccountnumber']  }), 200
+    return jsonify({'message': 'Successfully deposited from external bank!','user_account_id': user_account_id, "bankaccountnumber": userAccount['bankaccountnumber'], 'amountreceived': fundsFromBank,"oldbalance": int(currentUserAccountBalance),  "currentbalance": int(updateUserAccountResponse['balance'])}), 200
 
+@app.route("/withdrawToBank", methods=['POST'])
+def withdrawToBank():
+    if request.is_json:
+        data = request.json
+        print(data)
+        print("\nReceived an process in JSON:", data)
+        # do the actual work
+        # 1. Send order info {cart items}
+        result = processTransferWithdrawToBank(data["fundsToBank"],data["user_account_id"])
+        # Returns a tuple
+        jsonobject = result[0].json
+        return jsonify(jsonobject), 200
+    
+def processTransferWithdrawToBank(fundsToBank, user_account_id):
+    # ==== Assume amount has been obtained from the bank ====
+    # Process
+
+    # Get original balance amount from user
+    userAccount = invoke_http(details_bankaccount_URL+ '/' + user_account_id, method="GET")
+    currentUserAccountBalance = userAccount["balance"]
+
+    # Update the value of the balance now
+    updatedUserAccountBalance = int(currentUserAccountBalance) - fundsToBank
+
+    if (updatedUserAccountBalance < 0 ):
+        return jsonify({'message': 'insufficient funds in bank account to withdraw selected fund to bank', "amount": fundsToBank }), 200
+
+
+    # Update to end point via PUT
+    json_update = json.dumps({"user_account_id":user_account_id, "balance": updatedUserAccountBalance })
+    updateUserAccountResponse = invoke_http(balance_bankaccount_URL, method="PUT", json=json.loads(json_update))
+    print(updateUserAccountResponse)
+    print("Updated Successfully")
+    # Create the transaction
+    print("========= Creating Transaction ==========")
+    transaction_json_data_useraccount = json.dumps({'fromAccountUserId': None , 'fromAccountBankNumber': None, 'transactiontype': "Deposited From External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsToBank})
+    fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_useraccount))
+    return jsonify({'message': 'Successfully withdrawn to external bank!','user_account_id': user_account_id, "bankaccountnumber": userAccount['bankaccountnumber'], "amountwithdrawn": fundsToBank, "oldbalance": int(currentUserAccountBalance),"currentbalance": int(updateUserAccountResponse['balance'])}), 200
 
 
 if __name__ == '__main__':
