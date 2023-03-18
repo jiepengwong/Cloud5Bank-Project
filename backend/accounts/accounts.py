@@ -10,20 +10,10 @@ CORS(app)
 
 load_dotenv()
 
-# Configs for dynamodb
-dynamodb = boto3.resource(
-  'dynamodb',
-   region_name=os.environ.get('REGION'),
-  aws_access_key_id=os.environ.get('ACCESS_KEY'),
-  aws_secret_access_key=os.environ.get('SECRET_KEY'))
-
-connection = boto3.client(
-  'dynamodb',
-  region_name=os.environ.get('REGION'),
-  aws_access_key_id=os.environ.get('ACCESS_KEY'),
-  aws_secret_access_key=os.environ.get('SECRET_KEY'))
-
-
+# Connect to DynamoDB using IAM roles
+session = boto3.Session()
+dynamodb = session.resource('dynamodb')
+connection = session.client('dynamodb')
 bank_accounts_table = dynamodb.Table('bank_accounts')
 
 # Assume userid tied to only 1 BANK account 
