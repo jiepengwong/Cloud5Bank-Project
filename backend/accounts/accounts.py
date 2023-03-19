@@ -10,7 +10,6 @@ CORS(app)
 
 load_dotenv()
 
-# Configs for dynamodb
 dynamodb = boto3.resource(
   'dynamodb',
    region_name=os.environ.get('REGION'),
@@ -22,7 +21,6 @@ connection = boto3.client(
   region_name=os.environ.get('REGION'),
   aws_access_key_id=os.environ.get('ACCESS_KEY'),
   aws_secret_access_key=os.environ.get('SECRET_KEY'))
-
 
 bank_accounts_table = dynamodb.Table('bank_accounts')
 
