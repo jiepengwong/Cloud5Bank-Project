@@ -1,0 +1,80 @@
+version: "3.8"
+
+services:
+  ####################################
+  # Atomic Microservice: Accounts
+  ####################################
+  accounts:
+    build:
+      context: ./accounts
+      dockerfile: accounts.Dockerfile
+    image: jaytoo22/accounts:1.0
+    restart: always
+    env_file:
+      - .env
+    environment:
+      ACCESS_KEY: $ACCESS_KEY
+      SECRET_KEY: $SECRET_KEY
+      REGION: $REGION
+    ports:
+      - "5000:5000"
+
+  ####################################
+  # Atomic Microservice: Transactions
+  ####################################
+  transactions:
+    build:
+      context: ./transactions
+      dockerfile: transactions.Dockerfile
+    image: jaytoo22/transactions:1.0
+    restart: always
+    env_file:
+      - .env
+    environment:
+      ACCESS_KEY: $ACCESS_KEY
+      SECRET_KEY: $SECRET_KEY
+      REGION: $REGION
+    ports:
+      - "5001:5001"
+
+  ####################################
+  # Complex Microservice: Transfer Account
+  ####################################
+  transferaccountcomplex:
+    build:
+      context: ./transferaccountcomplex
+      dockerfile: transferaccountcomplex.Dockerfile
+    image: jaytoo22/transferaccountcomplex:1.0
+    depends_on:
+      - accounts
+      - transactions
+    restart: always
+    env_file:
+      - .env
+    environment:
+      ACCESS_KEY: $ACCESS_KEY
+      SECRET_KEY: $SECRET_KEY
+      REGION: $REGION
+    ports:
+      - "5002:5002"
+
+  ####################################
+  # Complex Microservice: External Bank Funding
+  ####################################
+  externalbankfundingcomplex:
+    build:
+      context: ./externalbankfundingcomplex
+      dockerfile: externalbankfundingcomplex.Dockerfile
+    image: jaytoo22/externalbankfundingcomplex:1.0
+    restart: always
+    depends_on:
+      - accounts
+      - transactions
+    env_file:
+      - .env
+    environment:
+      ACCESS_KEY: $ACCESS_KEY
+      SECRET_KEY: $SECRET_KEY
+      REGION: $REGION
+    ports:
+      - "5003:5003"

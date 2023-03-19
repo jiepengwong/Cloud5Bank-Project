@@ -9,9 +9,9 @@ from invokes import invoke_http
 
 app = Flask(__name__)
 CORS(app)
-details_bankaccount_URL = "http://localhost:5000/bankaccounts"
-balance_bankaccount_URL = "http://localhost:5000/bankAccountBalance"
-transaction_URL = "http://localhost:5001/createTransactionLog"
+details_bankaccount_URL = "http://accounts:5000/bankaccounts"
+balance_bankaccount_URL = "http://accounts:5000/bankAccountBalance"
+transaction_URL = "http://transactions:5001/createTransactionLog"
 
 
 
