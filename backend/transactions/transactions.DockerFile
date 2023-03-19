@@ -3,6 +3,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 COPY ./transactions.py  ./
-ENV PORT = 5001
+ENV ACCESS_KEY $ACCESS_KEY
+ENV SECRET_KEY $AWS_SECRET_KEY
+ENV REGION $REGION
 EXPOSE 5001
 CMD [ "python", "./transactions.py" ]
