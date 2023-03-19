@@ -34,6 +34,7 @@ services:
       ACCESS_KEY: $ACCESS_KEY
       SECRET_KEY: $SECRET_KEY
       REGION: $REGION
+
     ports:
       - "5001:5001"
 
