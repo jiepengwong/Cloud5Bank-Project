@@ -10,6 +10,7 @@ from invokes import invoke_http
 app = Flask(__name__)
 CORS(app)
 
+
 # Updated, need to fetch metadata from ec2 instances where container instances is residing in
 # can edit this accordingly to get the private ipv4 as well. This is the ip u need to specify to get metadata from the ec2 instance
 response = requests.get('http://169.254.169.254/latest/meta-data/public-ipv4')
