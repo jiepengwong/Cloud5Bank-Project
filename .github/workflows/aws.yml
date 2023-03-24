@@ -30,13 +30,18 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: "clouddigitalbank"
-        IMAGE_TAG: bank-account-image
+        BANK_ACCOUNT_IMAGE_TAG: "bank-account-image"
+        TRANSACTION_IMAGE_TAG: "transaction-image"
+        TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
+        EXTERNALBANK_IMAGE_TAG: "externalbank-image"
+
       run: |
         # Build a docker container and push it to ECR 
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $BANK_ACCOUNT_IMAGE_TAG:$BANK_ACCOUNT_IMAGE_TAG -f backend/accounts/accounts.Dockerfile .
+        docker tag $BANK_ACCOUNT_IMAGE_TAG:$BANK_ACCOUNT_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$BANK_ACCOUNT_IMAGE_TAG       
         echo "Pushing image to ECR..."
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$BANK_ACCOUNT_IMAGE_TAG     
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$BANK_ACCOUNT_IMAGE_TAG"
 
 
 # This workflow will build and push a new container image to Amazon ECR,
