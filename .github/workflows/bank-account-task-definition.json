@@ -25,6 +25,7 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
+       
       "environment": [
         {
           "name": "ACCESS_KEY",
