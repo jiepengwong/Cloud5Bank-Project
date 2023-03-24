@@ -12,10 +12,8 @@ import { theme } from './theme';
 
 
 // Amplify AWS  
-import Amplify from './aws-exports';
 // Configure AWS SDK
 import AWS from 'aws-sdk';
-import awsconfig from './aws-exports';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
 
