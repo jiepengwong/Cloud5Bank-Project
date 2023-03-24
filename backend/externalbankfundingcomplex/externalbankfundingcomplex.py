@@ -8,10 +8,11 @@ from invokes import invoke_http
 app = Flask(__name__)
 CORS(app)
 
-# Needs to when it is deployed
-details_bankaccount_URL = "http://accounts:5000/bankaccounts"
-balance_bankaccount_URL = "http://accounts:5000/bankAccountBalance"
-transaction_URL = "http://transactions:5001/createTransactionLog"
+response = requests.get('http://169.254.169.254/latest/meta-data/public-ipv4')
+public_ip_address = response.text
+details_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankaccounts"
+balance_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankAccountBalance"
+transaction_URL = "http://cloud5bank-alb1-518477221.ap-southeast-1.elb.amazonaws.com:5001/createTransactionLog"
 
 
 # Logic:

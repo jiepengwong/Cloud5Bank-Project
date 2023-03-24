@@ -9,10 +9,25 @@ from invokes import invoke_http
 
 app = Flask(__name__)
 CORS(app)
-details_bankaccount_URL = "http://accounts:5000/bankaccounts"
-balance_bankaccount_URL = "http://accounts:5000/bankAccountBalance"
-transaction_URL = "http://transactions:5001/createTransactionLog"
 
+
+# Updated, need to fetch metadata from ec2 instances where container instances is residing in
+# can edit this accordingly to get the private ipv4 as well. This is the ip u need to specify to get metadata from the ec2 instance
+response = requests.get('http://169.254.169.254/latest/meta-data/public-ipv4')
+public_ip_address = response.text
+
+details_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankaccounts"
+balance_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankAccountBalance"
+transaction_URL = "http://cloud5bank-alb1-518477221.ap-southeast-1.elb.amazonaws.com:5001/createTransactionLog"
+
+# details_bankaccount_URL = "http://ecs-bank-service.test-service-discovery-namespace.ap-southeast-1.compute.internal:5000/bankaccounts"
+# balance_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankAccountBalance"
+# transaction_URL = "http://cloud5bank-alb1-518477221.ap-southeast-1.elb.amazonaws.com:5001/createTransactionLog"
+
+# For local
+# details_bankaccount_URL = "http://bank-accounts:5000/bankaccounts"
+# balance_bankaccount_URL = "http://bank-accounts:5000/bankAccountBalance"
+# transaction_URL = "http://transactions:5001/createTransactionLog"
 
 
 # Logic:
@@ -23,8 +38,18 @@ transaction_URL = "http://transactions:5001/createTransactionLog"
 #     fromAccount: 231,
 #     amount: 50
 # }
+@app.route("/", methods=["GET"])
+def transfercomplex():
+    response = requests.get('http://169.254.169.254/latest/meta-data/public-ipv4')
+    public_ip_address = response.text
+    return public_ip_address
 
-# */
+@app.route("/test",methods=["GET"])
+def transfercomplex_test():
+    fromAccount = invoke_http(details_bankaccount_URL + '/' + "serial3", method="GET")
+    fromAccountBalance = fromAccount["balance"]
+    return fromAccountBalance
+
 @app.route("/transferfunds", methods=['POST'])
 def transferfunds():
     if request.is_json:
