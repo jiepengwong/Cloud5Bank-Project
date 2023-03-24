@@ -48,7 +48,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-#       test
+#       test2
         task-definition: ./bankaccount-task-definition.json
         container-name: bank-accounts
         image: ${{ steps.build-image.outputs.bank-account-image }}
