@@ -32,7 +32,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: "clouddigitalbank"
         BANK_ACCOUNT_IMAGE_TAG: "bank-account-image"
-        TRANSACTION_IMAGE_TAG: "transaction-image"
+        TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbank-image"
 
