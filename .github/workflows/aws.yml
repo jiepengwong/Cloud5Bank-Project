@@ -36,7 +36,7 @@ jobs:
         EXTERNALBANK_IMAGE_TAG: "externalbank-image"
 
       run: |
-        cd ../../backend/accounts
+        cd backend/accounts
         # Build a docker container and push it to ECR 
         docker build -t $BANK_ACCOUNT_IMAGE_TAG:$BANK_ACCOUNT_IMAGE_TAG -f backend/accounts/accounts.Dockerfile .
         docker tag $BANK_ACCOUNT_IMAGE_TAG:$BANK_ACCOUNT_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$BANK_ACCOUNT_IMAGE_TAG       
