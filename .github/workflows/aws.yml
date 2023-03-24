@@ -1,6 +1,7 @@
 on:
-  push:
-    branches: [master]
+  pull_request:
+    branches:
+      - master
       
 
 name: Testing for the lols 
