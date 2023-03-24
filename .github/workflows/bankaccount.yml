@@ -34,7 +34,7 @@ jobs:
         BANK_ACCOUNT_IMAGE_TAG: "bank-account-image"
         TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
-        EXTERNALBANK_IMAGE_TAG: "externalbank-image"
+        EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
 
       run: |
         cd backend/accounts

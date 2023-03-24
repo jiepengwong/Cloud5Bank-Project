@@ -1,10 +1,10 @@
 on:
-  pull_request:
+  push:
     branches:
       - master
       
 
-name: Transaction Workflow
+name: External Complex Workflow
 
 jobs:
   deploy:
@@ -35,14 +35,15 @@ jobs:
         TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
+
       run: |
-        cd backend/transactions
+        cd backend/externalbankfundingcomplex
         # Build a docker container and push it to ECR 
-        docker build -t $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG -f transactions.DockerFile .
-        docker tag $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG      
+        docker build -t $EXTERNALBANK_IMAGE_TAG:$EXTERNALBANK_IMAGE_TAG -f transferaccountcomplex.DockerFile .
+        docker tag $EXTERNALBANK_IMAGE_TAG:$EXTERNALBANK_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG    
         echo "Pushing transaction image to ECR..."
-        docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG     
-        echo "::set-output name=transaction-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG"
+        docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG        
+        echo "::set-output name=externalbankcomplex-image::$ECR_REGISTRY/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG    
         
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
@@ -51,12 +52,12 @@ jobs:
 #       test2
         task-definition: ./transaction-task-definition.json
         container-name: ecs-transactions-container
-        image: ${{ steps.build-image.outputs.transaction-image }}
+        image: ${{ steps.build-image.outputs.externalbankcomplex-image}}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: ecs-transactions-service
+        service: ecs-externalfund-service
         cluster: cloud-project-prototype-1
         wait-for-service-stability: true
