@@ -39,7 +39,7 @@ jobs:
       run: |
         cd backend/transactions
         # Build a docker container and push it to ECR 
-        docker build -t $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG -f transactions.Dockerfile .
+        docker build -t $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG -f transactions.DockerFile .
         docker tag $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG      
         echo "Pushing transaction image to ECR..."
         docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG     
