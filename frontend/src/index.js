@@ -37,11 +37,9 @@ if (cognitoUser != null) {
       return;
     }
 
+    AWS.config.region = 'ap-southeast-1'; // Region
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'your_identity_pool_id',
-      Logins: {
-        [`cognito-idp.${AWS.config.region}.amazonaws.com/${'your_user_pool_id'}`]: session.getIdToken().getJwtToken(),
-      },
+        IdentityPoolId: 'ap-southeast-1:06e1b42f-9e31-4104-b71a-074efe141741',
     });
 
     const queryClient = new QueryClient();
