@@ -6,8 +6,18 @@ import Register from '../../components/register/Register'
 import Login from '../../components/login/Login'
 import { useNavigate } from 'react-router-dom'
 
+import Button from '@mui/material/Button';
+
+import Amplify, { Auth } from 'aws-amplify';
+
+
+
+
 // Import AWS
 import AWS from 'aws-sdk';
+// import { SignIn } from '@aws-amplify/ui-react/lib/Auth';
+const { SignIn } = require('@aws-amplify/ui-react');
+
 
 AWS.config.update({ region: 'ap-southeast-1' });
 
@@ -17,6 +27,23 @@ function Homepage() {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const code = urlSearchParams.get('code');
 
+  async function signOut() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
+  async function signIn() {
+    try {
+        const username ="yxsong.2020@scis.smu.edu.sg";
+        const password = "Yuxiang123!"
+        const user = await Auth.signIn(username, password);
+        console.log(user);
+    } catch (error) {
+        console.log('error signing in', error);
+    }
+  }
   if (!code) {
     return (
       <div className='homepage'>
@@ -33,9 +60,9 @@ function Homepage() {
             <p>Spend, save, invest, and control your financial life</p>
   
             <div className='homepage-sign-btns'>
-              <CustomizedDialogs title='Sign in' btn='Sign in'>
-                <Register/>
-              </CustomizedDialogs>
+              <Button onClick={() => signIn()}>Sign In</Button>
+
+              <Button onClick={()=> signOut()}>Sign Out</Button>
   
   
             </div>
@@ -45,32 +72,6 @@ function Homepage() {
       </div>
     )
   }
-  else {
-    // Use the code to check with the Cognito Side 
-    const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-
-    async function getUserInfo(code) {
-      try {
-        const response = await cognitoidentityserviceprovider.getUser({
-          AccessToken: code
-        }).promise();
-
-        return response.UserAttributes.reduce((acc, curr) => {
-          console.log(curr.Value)
-          acc[curr] = curr.Value;
-          return acc;
-        }, {});
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    }
-    const userInfo = getUserInfo(code);
-    console.log(userInfo)
-
-    // Populate the Use Context. 
-    navigate("/adminpanel/*");
-  }
 }
 
-export default Homepage
+export default Homepage;

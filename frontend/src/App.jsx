@@ -7,7 +7,15 @@ import AdminPanel from './Pages/AdminPanel/AdminPanel'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import { AuthContext } from './context/Auth-context';
 
-function App() {
+import { Amplify } from 'aws-amplify';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from './aws-exports';
+Amplify.configure(awsExports);
+
+function App({ signOut, user }) {
 
   const {isAdmin, jwt} = useContext(AuthContext)
   // console.log(isAdmin)
@@ -37,4 +45,4 @@ function App() {
   )
 }
 
-export default App;
+export default withAuthenticator(App);

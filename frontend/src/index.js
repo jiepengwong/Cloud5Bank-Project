@@ -13,12 +13,15 @@ import { theme } from './theme';
 
 // Amplify AWS  
 // Configure AWS SDK
+
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
 import AWS from 'aws-sdk';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
 
 // Configure AWS Amplify
-// Amplify.configure(awsconfig);
+Amplify.configure(awsconfig);
 
 const userPool = new CognitoUserPool({
   UserPoolId: 'ap-southeast-1_uldoanBJO',
