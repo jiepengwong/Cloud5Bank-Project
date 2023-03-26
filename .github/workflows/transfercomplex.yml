@@ -41,7 +41,7 @@ jobs:
         # Build a docker container and push it to ECR 
         docker build -t $TRANSFERCOMPLEX_IMAGE_TAG:$TRANSFERCOMPLEX_IMAGE_TAG -f transferaccountcomplex.DockerFile .
         docker tag $TRANSFERCOMPLEX_IMAGE_TAG:$TRANSFERCOMPLEX_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSFERCOMPLEX_IMAGE_TAG     
-        echo "Pushing transaction image to ECR..."
+        echo "Pushing transfer complex image to ECR..."
         docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSFERCOMPLEX_IMAGE_TAG     
         echo "::set-output name=transfercomplex-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSFERCOMPLEX_IMAGE_TAG"
         
