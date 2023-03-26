@@ -38,7 +38,8 @@ jobs:
 
       run: |
         cd backend/externalbankfundingcomplex
-        ls-l
+        echo "{path}"
+        echo "::ls"
         # Build a docker container and push it to ECR 
         docker build -t $EXTERNALBANK_IMAGE_TAG:$EXTERNALBANK_IMAGE_TAG -f externalbankfundingcomplex.DockerFile .
         docker tag $EXTERNALBANK_IMAGE_TAG:$EXTERNALBANK_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG    
