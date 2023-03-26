@@ -4,7 +4,7 @@ on:
       - master
       
 
-name: Testing for the lols 
+name: Bank account workflow 
 
 jobs:
   deploy:
