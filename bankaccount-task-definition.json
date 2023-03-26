@@ -29,7 +29,7 @@
       "environment": [
         {
           "name": "ACCESS_KEY",
-          "value": "${secrets.AWS_DYNAMODB_ACCESS_KEY_ID }"
+          "value": "${secrets.AWS_DYNAMODB_ACCESS_KEY_ID}"
         },
         {
           "name": "REGION",
@@ -37,7 +37,7 @@
         },
         {
           "name": "SECRET_KEY",
-          "value": "${ secrets.AWS_DYNAMODB_SECRET_KEY_ID }"
+          "value": "${secrets.AWS_DYNAMODB_SECRET_KEY_ID}"
         }
       ],
       "resourceRequirements": null,
