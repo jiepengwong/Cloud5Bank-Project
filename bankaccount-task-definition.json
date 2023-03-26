@@ -25,19 +25,10 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-       
       "environment": [
-        {
-          "name": "ACCESS_KEY",
-          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID"
-        },
         {
           "name": "REGION",
           "value": "ap-southeast-1"
-        },
-        {
-          "name": "SECRET_KEY",
-          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID"
         }
       ],
       "resourceRequirements": null,
@@ -45,7 +36,16 @@
       "dnsServers": [],
       "mountPoints": [],
       "workingDirectory": null,
-      "secrets": null,
+      "secrets": [
+        {
+          "name": "ACCESS_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID"
+        },
+        {
+          "name": "SECRET_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_SECRET_KEY_ID"
+        }
+      ],
       "dockerSecurityOptions": null,
       "memory": null,
       "memoryReservation": null,
