@@ -45,7 +45,7 @@ jobs:
         docker tag $EXTERNALBANK_IMAGE_TAG:$EXTERNALBANK_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG    
         echo "Pushing external bank complex image to ECR..."
         docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG        
-        echo "::set-output name=externalbankcomplex-image::$ECR_REGISTRY/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG    
+        echo "::set-output name=externalbankcomplex-image::$ECR_REGISTRY/$ECR_REPOSITORY:$EXTERNALBANK_IMAGE_TAG"
         
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
