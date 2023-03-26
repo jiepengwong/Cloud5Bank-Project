@@ -50,7 +50,7 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
 #       test2
-        task-definition: ./transaction-task-definition.json
+        task-definition: ./externalbankcomplex-task-definition.json
         container-name: external-bank-complex
         image: ${{ steps.build-image.outputs.externalbankcomplex-image}}
 
