@@ -1,10 +1,9 @@
 import { CognitoUserPool } from "amazon-cognito-identity-js";
 
 const poolData = {
-    UserPoolId: "ap-southeast-1_uldoanBJO",
-    ClientId :"37a0vvvi834aa5i8sua1h75ptl",
+    UserPoolId: "ap-southeast-1_Vdgt9wJ8f",
+    ClientId :"2l3jd0d1r5fjabbb6v1s1fmboj",
 }
-const pool_region = 'ap-southeast-1';
 
 
 export default new CognitoUserPool(poolData);

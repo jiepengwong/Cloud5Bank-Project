@@ -22,11 +22,11 @@ function Homepage() {
   const onSubmit = (event) => {
     event.preventDefault();
   
-    const email = "syuxiang99@gmail.com";
-    const password = "Yuxiang1999!";
+    const email = "htreborn";
+    const password = "Yuxiang123!";
     const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: password,
+      Username: "htreborn",
+      Password: "Yuxiang1999@",
     });
 
     // console.log(getSecretHash(email))
@@ -37,29 +37,63 @@ function Homepage() {
     });
 
     // Start
+    // cognitoUser.authenticateUser(authDetails, {
+    //   onSuccess: (session) => {
+    //     alert("User authenticated successfully");
+    //     console.log("Session: ", session);
+    //   },
+    //   onFailure: (err) => {
+    //     // Handle errors as before
+    //     console.log(err)
+    //   },
+
+
     cognitoUser.authenticateUser(authDetails, {
-      onSuccess: (session) => {
-        console.log("User authenticated successfully");
-        console.log("Session: ", session);
+      onSuccess: function(result) {
+        console.log('Access token:', result.getAccessToken().getJwtToken());
+        console.log('ID token:', result.getIdToken().getJwtToken());
+        console.log('Refresh token:', result.getRefreshToken().getToken());
       },
-      onFailure: (err) => {
-        // Handle errors as before
-        console.log(err)
+      onFailure: function(err) {
+        console.error(err);
       },
-      mfaRequired: (codeDeliveryDetails) => {
-        console.log("MFA is required");
-        const mfaCode = prompt("Please enter MFA code");
-        cognitoUser.sendMFACode(mfaCode, {
-          onSuccess: (result) => {
-            console.log("MFA code submitted successfully");
-            console.log("Result: ", result);
+      newPasswordRequired: function(userAttributes, requiredAttributes) {
+        // Filter out non-writable attributes
+        const writableAttributes = Object.keys(userAttributes).reduce((result, key) => {
+          if (!requiredAttributes.includes(key)) {
+            result[key] = userAttributes[key];
+          }
+          return result;
+        }, {});
+    
+        // Prompt the user to enter a new password
+        const newPassword = prompt('Please enter a new password:');
+    
+        // Complete the new password challenge
+        cognitoUser.completeNewPasswordChallenge(newPassword, {
+          onSuccess: function(result) {
+            console.log('ID token:', result.getIdToken().getJwtToken());
+            console.log('Refresh token:', result.getRefreshToken().getToken());
           },
-          onFailure: (err) => {
-            console.log("Failed to submit MFA code:", err);
-          },
+          onFailure: function(err) {
+            console.error(err);
+          }
         });
-      },
+      }
     });
+      // mfaRequired: (codeDeliveryDetails) => {
+      //   console.log("MFA is required");
+      //   const mfaCode = prompt("Please enter MFA code");
+      //   cognitoUser.sendMFACode(mfaCode, {
+      //     onSuccess: (result) => {
+      //       console.log("MFA code submitted successfully");
+      //       console.log("Result: ", result);
+      //     },
+      //     onFailure: (err) => {
+      //       console.log("Failed to submit MFA code:", err);
+      //     },
+      //   });
+      // },
     // End 
   };
 
