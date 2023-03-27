@@ -12,7 +12,8 @@
             "awslogs-group": "/ecs/ecs-transactions-task",
             "awslogs-region": "ap-southeast-1",
             "awslogs-stream-prefix": "ecs"
-          },
+          }
+        },
         "entryPoint": [],
         "portMappings": [
           {
