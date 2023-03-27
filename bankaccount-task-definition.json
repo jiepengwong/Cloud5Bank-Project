@@ -84,5 +84,11 @@
   "cpu": "256",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
-  "volumes": []
+  "volumes": [],
+  "loadBalancers": [
+    {  
+      "targetGroupArn":"arn:aws:elasticloadbalancing:ap-southeast-1:252674446317:targetgroup/ecs-bankaccount-tg/adb7d4f9de7e86e6",
+      "containerPort":80
+   }
+  ]
 }
