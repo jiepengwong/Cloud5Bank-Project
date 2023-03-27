@@ -5,7 +5,14 @@
       {
         "dnsSearchDomains": null,
         "environmentFiles": null,
-        "logConfiguration": null,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "secretOptions": null,
+          "options": {
+            "awslogs-group": "/ecs/ecs-transactions-task",
+            "awslogs-region": "ap-southeast-1",
+            "awslogs-stream-prefix": "ecs"
+          },
         "entryPoint": [],
         "portMappings": [
           {
@@ -19,16 +26,8 @@
         "cpu": 0,
         "environment": [
             {
-              "name": "ACCESS_KEY",
-              "value": "$aws-secretsmanager:/dynamo-access-key/AWS_DYNAMODB_ACCESS_KEY_ID"
-            },
-            {
               "name": "REGION",
               "value": "ap-southeast-1"
-            },
-            {
-              "name": "SECRET_KEY",
-              "value": "$aws-secretsmanager:/dynamo-access-key/AWS_DYNAMODB_SECRET_KEY_ID"
             }
           ],
         "resourceRequirements": null,
@@ -36,10 +35,14 @@
         "dnsServers": null,
         "mountPoints": [],
         "workingDirectory": null,
-        "secrets":[
+        "secrets": [
           {
-            "name": "dynamo-access-key",
-            "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba"
+            "name": "ACCESS_KEY",
+            "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID"
+          },
+          {
+            "name": "SECRET_KEY",
+            "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_SECRET_KEY_ID"
           }
         ],
         "dockerSecurityOptions": null,
@@ -47,7 +50,7 @@
         "memoryReservation": null,
         "volumesFrom": [],
         "stopTimeout": null,
-        "image": "252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/clouddigitalbank:transactions-image",
+        "image": "252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/clouddigitalbank:latest",
         "startTimeout": null,
         "firelensConfiguration": null,
         "dependsOn": null,
@@ -64,7 +67,7 @@
         "dockerLabels": null,
         "systemControls": null,
         "privileged": null,
-        "name": "ecs-transactions-container"
+        "name": "transactions"
       }
     ],
     "placementConstraints": [],
@@ -81,7 +84,31 @@
         "targetId": null,
         "targetType": null,
         "value": null,
+        "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+      },
+      {
+        "targetId": null,
+        "targetType": null,
+        "value": null,
+        "name": "ecs.capability.execution-role-awslogs"
+      },
+      {
+        "targetId": null,
+        "targetType": null,
+        "value": null,
         "name": "com.amazonaws.ecs.capability.ecr-auth"
+      },
+      {
+        "targetId": null,
+        "targetType": null,
+        "value": null,
+        "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+      },
+      {
+        "targetId": null,
+        "targetType": null,
+        "value": null,
+        "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
       },
       {
         "targetId": null,
