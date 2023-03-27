@@ -19,7 +19,7 @@
         {
           "hostPort": 5000,
           "protocol": "tcp",
-          "containerPort": 5000
+          "containerPort": 80
         }
       ],
       "command": [],
@@ -84,11 +84,5 @@
   "cpu": "256",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
-  "volumes": [],
-  "loadBalancers": [
-    {  
-      "targetGroupArn":"arn:aws:elasticloadbalancing:ap-southeast-1:252674446317:targetgroup/ecs-bankaccount-tg/adb7d4f9de7e86e6",
-      "containerPort":80
-   }
-  ]
+  "volumes": [], 
 }
