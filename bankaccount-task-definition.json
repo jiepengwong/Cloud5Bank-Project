@@ -38,11 +38,11 @@
       "workingDirectory": null,
       "secrets": [
         {
-          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID::",
           "name": "ACCESS_KEY"
         },
         {
-          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_SECRET_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_SECRET_KEY_ID::",
           "name": "SECRET_KEY"
         }
       ],
