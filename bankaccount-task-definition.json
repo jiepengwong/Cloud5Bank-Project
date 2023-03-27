@@ -84,5 +84,5 @@
   "cpu": "256",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
-  "volumes": [], 
+  "volumes": []
 }
