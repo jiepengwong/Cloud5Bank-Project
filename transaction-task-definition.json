@@ -51,7 +51,7 @@
         "memoryReservation": null,
         "volumesFrom": [],
         "stopTimeout": null,
-        "image": "252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/clouddigitalbank:transactions-image",
+        "image": "252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/clouddigitalbank:transaction-image",
         "startTimeout": null,
         "firelensConfiguration": null,
         "dependsOn": null,
