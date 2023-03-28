@@ -35,7 +35,7 @@ jobs:
         TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
-        
+
       run: |
         cd backend/transactions
         # Build a docker container and push it to ECR 
@@ -51,7 +51,7 @@ jobs:
       with:
 #       test2
         task-definition: ./transaction-task-definition.json
-        container-name: ecs-transactions-container
+        container-name: transactions
         image: ${{ steps.build-image.outputs.transaction-image }}
 
     - name: Deploy Amazon ECS task definition
