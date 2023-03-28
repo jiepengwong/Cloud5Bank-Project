@@ -68,7 +68,7 @@
         "dockerLabels": null,
         "systemControls": null,
         "privileged": null,
-        "name": "transactions"
+        "name": "ecs-transactions-container"
       }
     ],
     "placementConstraints": [],
