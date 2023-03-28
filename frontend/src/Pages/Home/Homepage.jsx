@@ -1,11 +1,12 @@
 import './homepage.scss'
 import React from 'react'
 import CustomizedDialogs from '../../components/dialog/Dialog'
+import { useState } from 'react'
 
 import Register from '../../components/register/Register'
 import Login from '../../components/login/Login'
 
-import { Button, TextField } from '@mui/material';import Box from '@mui/material/Box';
+import { Button, TextField, Typography } from '@mui/material';import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
@@ -18,38 +19,23 @@ import { getSecretHash } from "../../getSecretHash"; // Import your helper funct
 
 function Homepage() {
 
-  // Copy code
+  const [username, setusername] = useState("")
+  const [password, setpassword] = useState("")
+
   const onSubmit = (event) => {
     event.preventDefault();
   
-    const email = "htreborn";
-    const password = "Yuxiang123!";
     const authDetails = new AuthenticationDetails({
-      Username: "htreborn",
-      Password: "Yuxiang1999@",
+      Username: username,
+      Password: password,
     });
-
-    // console.log(getSecretHash(email))
-
     const cognitoUser = new CognitoUser({
-      Username: email,
+      Username: username,
       Pool: UserPool,
     });
-
-    // Start
-    // cognitoUser.authenticateUser(authDetails, {
-    //   onSuccess: (session) => {
-    //     alert("User authenticated successfully");
-    //     console.log("Session: ", session);
-    //   },
-    //   onFailure: (err) => {
-    //     // Handle errors as before
-    //     console.log(err)
-    //   },
-
-
     cognitoUser.authenticateUser(authDetails, {
       onSuccess: function(result) {
+        alert("You have successfully Logged In.")
         console.log('Access token:', result.getAccessToken().getJwtToken());
         console.log('ID token:', result.getIdToken().getJwtToken());
         console.log('Refresh token:', result.getRefreshToken().getToken());
@@ -59,6 +45,8 @@ function Homepage() {
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // Filter out non-writable attributes
+
+        alert("You have to change your password! ")
         const writableAttributes = Object.keys(userAttributes).reduce((result, key) => {
           if (!requiredAttributes.includes(key)) {
             result[key] = userAttributes[key];
@@ -81,20 +69,6 @@ function Homepage() {
         });
       }
     });
-      // mfaRequired: (codeDeliveryDetails) => {
-      //   console.log("MFA is required");
-      //   const mfaCode = prompt("Please enter MFA code");
-      //   cognitoUser.sendMFACode(mfaCode, {
-      //     onSuccess: (result) => {
-      //       console.log("MFA code submitted successfully");
-      //       console.log("Result: ", result);
-      //     },
-      //     onFailure: (err) => {
-      //       console.log("Failed to submit MFA code:", err);
-      //     },
-      //   });
-      // },
-    // End 
   };
 
   return (
@@ -109,19 +83,23 @@ function Homepage() {
         <section>
 
           <h1>The bank you trust</h1>
-          <p>Spend, save, invest, and control your financial life</p>
+          <p> Username: "htreborn",Password: "Yuxiang1999@" </p>
 
 
           {/* Grid  */}
           <Grid container>
-            <Grid item xs={12}>
-              <TextField></TextField>
+            <Grid item xs={12} marginBottom={3}>
+              <TextField sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
             </Grid>
             <Grid item xs={12}>
-              <TextField></TextField>
+              <TextField sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
+            </Grid>
+            
+            <Grid item xs={12}>
+                <Button onClick={event => onSubmit(event)}>Sign In</Button>
             </Grid>
           </Grid>
-          <Button onClick={event => onSubmit(event)}>Sign In</Button>
+          
 
         </section>
       </main>
