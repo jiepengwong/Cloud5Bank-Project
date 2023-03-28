@@ -43,7 +43,7 @@ jobs:
         docker tag $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG      
         echo "Pushing transaction image to ECR..."
         docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG     
-        echo "::set-output name=transaction-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG"
+        echo "::set-output name=transactions-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG"
         
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
