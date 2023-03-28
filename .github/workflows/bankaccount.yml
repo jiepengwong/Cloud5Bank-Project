@@ -62,7 +62,6 @@ jobs:
         service: ecs-bank-account-service
         cluster: cloud-project-prototype-1
         wait-for-service-stability: true
-        load-balancers: targetGroupARN=arn:aws:elasticloadbalancing:ap-southeast-1:252674446317:targetgroup/ecs-bankaccount-tg/adb7d4f9de7e86e6
 
 
 

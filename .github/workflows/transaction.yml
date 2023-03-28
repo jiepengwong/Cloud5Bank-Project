@@ -1,5 +1,5 @@
 on:
-  pull_request:
+  push:
     branches:
       - master
       
@@ -35,6 +35,7 @@ jobs:
         TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
+        
       run: |
         cd backend/transactions
         # Build a docker container and push it to ECR 
