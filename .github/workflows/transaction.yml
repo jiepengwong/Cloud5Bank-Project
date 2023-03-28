@@ -32,7 +32,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: "clouddigitalbank"
         BANK_ACCOUNT_IMAGE_TAG: "bank-account-image"
-        TRANSACTION_IMAGE_TAG: "transactions-image"
+        TRANSACTION_IMAGE_TAG: "transaction-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
 
@@ -43,7 +43,7 @@ jobs:
         docker tag $TRANSACTION_IMAGE_TAG:$TRANSACTION_IMAGE_TAG 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG      
         echo "Pushing transaction image to ECR..."
         docker push 252674446317.dkr.ecr.ap-southeast-1.amazonaws.com/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG     
-        echo "::set-output name=transactions-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG"
+        echo "::set-output name=transaction-image::$ECR_REGISTRY/$ECR_REPOSITORY:$TRANSACTION_IMAGE_TAG"
         
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
@@ -52,7 +52,7 @@ jobs:
 #       test2
         task-definition: ./transaction-task-definition.json
         container-name: ecs-transactions-container
-        image: ${{ steps.build-image.outputs.transactions-image }}
+        image: ${{ steps.build-image.outputs.transaction-image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
