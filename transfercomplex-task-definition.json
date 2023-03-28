@@ -66,10 +66,6 @@
     "placementConstraints": [],
     "memory": "512",
     "taskRoleArn": "arn:aws:iam::252674446317:role/ecsTaskExecutionRole",
-    "compatibilities": [
-      "EXTERNAL",
-      "EC2"
-    ],
     "family": "ecs-transfercomplex-task",
     "pidMode": null,
     "requiresCompatibilities": [
