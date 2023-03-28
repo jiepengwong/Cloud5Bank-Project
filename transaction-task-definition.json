@@ -74,7 +74,6 @@
     "placementConstraints": [],
     "memory": "512",
     "taskRoleArn": "arn:aws:iam::252674446317:role/ecsTaskExecutionRole",
-    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:252674446317:task-definition/ecs-transactions-task:1",
     "family": "ecs-transactions-task",
     "pidMode": null,
     "requiresCompatibilities": [
