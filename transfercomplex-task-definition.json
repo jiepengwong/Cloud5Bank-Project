@@ -19,22 +19,8 @@
         "cpu": 0,
         "environment": [
             {
-              "name": "ACCESS_KEY",
-              "value": "$aws-secretsmanager:/dynamo-access-key/AWS_DYNAMODB_ACCESS_KEY_ID"
-            },
-            {
               "name": "REGION",
               "value": "ap-southeast-1"
-            },
-            {
-              "name": "SECRET_KEY",
-              "value": "$aws-secretsmanager:/dynamo-access-key/AWS_DYNAMODB_SECRET_KEY_ID"
-            }
-          ],
-          "secrets": [
-            {
-              "name": "dynamo-access-key",
-              "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba"
             }
           ],
         "resourceRequirements": null,
@@ -42,6 +28,16 @@
         "dnsServers": null,
         "mountPoints": [],
         "workingDirectory": null,
+        "secrets": [
+          {
+            "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_ACCESS_KEY_ID::",
+            "name": "ACCESS_KEY"
+          },
+          {
+            "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:252674446317:secret:dynamo-access-key-mwulba:AWS_DYNAMODB_SECRET_KEY_ID::",
+            "name": "SECRET_KEY"
+          }
+        ],
         "dockerSecurityOptions": null,
         "memory": null,
         "memoryReservation": null,
@@ -70,32 +66,7 @@
     "placementConstraints": [],
     "memory": "512",
     "taskRoleArn": "arn:aws:iam::252674446317:role/ecsTaskExecutionRole",
-    "compatibilities": [
-      "EXTERNAL",
-      "EC2"
-    ],
-    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:252674446317:task-definition/ecs-transfercomplex-task:1",
     "family": "ecs-transfercomplex-task",
-    "requiresAttributes": [
-      {
-        "targetId": null,
-        "targetType": null,
-        "value": null,
-        "name": "com.amazonaws.ecs.capability.ecr-auth"
-      },
-      {
-        "targetId": null,
-        "targetType": null,
-        "value": null,
-        "name": "com.amazonaws.ecs.capability.task-iam-role"
-      },
-      {
-        "targetId": null,
-        "targetType": null,
-        "value": null,
-        "name": "ecs.capability.execution-role-ecr-pull"
-      }
-    ],
     "pidMode": null,
     "requiresCompatibilities": [
       "EC2"
@@ -103,8 +74,6 @@
     "networkMode": null,
     "runtimePlatform": null,
     "cpu": "256",
-    "revision": 1,
-    "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
     "volumes": []
