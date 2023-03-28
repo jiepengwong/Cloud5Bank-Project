@@ -1,5 +1,5 @@
 on:
-  pull_request:
+  push:
     branches:
       - master
       
@@ -35,7 +35,6 @@ jobs:
         TRANSACTION_IMAGE_TAG: "transactions-image"
         TRANSFERCOMPLEX_IMAGE_TAG: "transfercomplex-image"
         EXTERNALBANK_IMAGE_TAG: "externalbankcomplex-image"
-        TARGET_GROUP_ARN: arn:aws:elasticloadbalancing:ap-southeast-1:252674446317:targetgroup/ecs-bankaccount-tg/adb7d4f9de7e86e6
 
       run: |
         cd backend/accounts
