@@ -3,16 +3,17 @@
 
 .homepage {
   padding: 2em;
-  height: 100vh;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   gap: 14em;
   color: $clr-light;
   background-color: $clr-dark;
+  
   .homepage-bg {
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 200vh;
     mix-blend-mode: multiply;
     top: 0;
     left: 0;
@@ -40,6 +41,27 @@
     .homepage-sign-btns {
       display: flex;
       gap: 1em;
+    }
+
+    // .parent-container {
+    //   // display: flex;
+    //   // flex-wrap: wrap;
+    //   // justify-content: space-between;
+    //   display: flex;
+    //   justify-content: space-between;
+    //   flex-wrap: wrap;
+    //   gap: 20px;
+    // }
+
+    .child-container {
+      // width: 48%;
+      // margin-bottom: 20px;
+      width: calc(50% - 10px);
+      box-sizing: border-box;
+      padding: 20px;
+      // background-color: #fff;
+      border-radius: 5px;
+      // box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
   }
 }

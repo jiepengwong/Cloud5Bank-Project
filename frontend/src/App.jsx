@@ -14,9 +14,12 @@ function App() {
 
   return (
     <div className="App">
+      {/* {true */}
       {jwt
         ?
         isAdmin === 'admin'
+        // true
+        // false
           ?
           <Routes>
             <Route path='/adminpanel/*' element={<AdminPanel/>}/>
@@ -32,7 +35,7 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path="*" element={<Navigate to ="/" replace/>}/>
         </Routes>
-      }
+       } 
     </div>
   )
 }
