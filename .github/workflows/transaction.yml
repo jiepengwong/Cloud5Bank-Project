@@ -51,7 +51,7 @@ jobs:
       with:
 #       test2
         task-definition: ./transaction-task-definition.json
-        container-name: transactions
+        container-name: ecs-transactions-container
         image: ${{ steps.build-image.outputs.transaction-image }}
 
     - name: Deploy Amazon ECS task definition
