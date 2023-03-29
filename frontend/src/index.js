@@ -9,19 +9,21 @@ import { AuthProvider } from './context/Auth-context';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './theme';
 
+import {Provider} from "react-redux";
+import {store} from "./redux/store";
 const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <AuthProvider>
+      <Provider store = {store}>
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
               <App />
             </ThemeProvider>
         </QueryClientProvider>
-      </AuthProvider>
+      </Provider>
     </React.StrictMode>
   </BrowserRouter>
 );

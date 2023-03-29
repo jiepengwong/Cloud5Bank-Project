@@ -6,20 +6,22 @@ import Homepage from './Pages/Home/Homepage';
 import AdminPanel from './Pages/AdminPanel/AdminPanel'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import { AuthContext } from './context/Auth-context';
+import { useSelector,useDispatch } from 'react-redux';
 
 function App() {
 
-  const {isAdmin, jwt} = useContext(AuthContext)
   // console.log(isAdmin)
+  const globalJWT = useSelector((state) => state.every.jwtToken);
+  const role = useSelector((state) => state.every.roles);
+
+
+  console.log(globalJWT);
 
   return (
     <div className="App">
-      {/* {true */}
-      {jwt
+      {globalJWT !== ""
         ?
-        isAdmin === 'admin'
-        // true
-        // false
+        role === 'Admin'
           ?
           <Routes>
             <Route path='/adminpanel/*' element={<AdminPanel/>}/>

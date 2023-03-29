@@ -16,10 +16,13 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import UserPool from '../../UserPool';
 import { CognitoUserAttribute, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import { getSecretHash } from "../../getSecretHash"; // Import your helper function here
+import { useDispatch } from 'react-redux'
+import { set_access_token, set_id_token,set_roles , set_JWTToken} from "../../redux/features/everythingSlice";
 
-
+// Import all the Functions from everythingSlice 
 
 function Homepage() {
+  const dispatch = useDispatch();
 
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
@@ -47,12 +50,19 @@ function Homepage() {
         setLoggedIn(true)
         console.log(isLoggedIn)
 
-        // if(username === 'htreborn'){
-        //   navigate('/userdashboard')
-        // }
-        // else{
-        //   navigate('/adminpanel')
-        // }
+        // Push it to global variable 
+        dispatch(set_access_token(result.getAccessToken()))
+        dispatch(set_id_token(result.getIdToken()))
+        dispatch(set_JWTToken(result.getAccessToken().getJwtToken()))
+
+        if (username == "weiting123") {
+          dispatch(set_roles("Admin"))
+        }
+        else{
+          dispatch(set_roles("Customer"))
+        }
+
+        // Navigate them out.
 
 
       },
