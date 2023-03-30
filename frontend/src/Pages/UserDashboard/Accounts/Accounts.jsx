@@ -26,20 +26,38 @@ function Accounts() {
   const jwtToken = idToken.jwtToken;
   console.log(jwtToken)
 
-  useEffect(() => {
-    // AXIOS CALL TO GET ALL THE BANK ACCOUNTS:
-    axios.get('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/alltransactions', {
-      headers: {
-        'Authorization': jwtToken
-      }
-    })
-    .then((response) => {
-      console.log(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  },[])
+  const [response_row, setresponse ] = useState([])
+
+    function Load() {
+      // AXIOS CALL TO GET ALL THE BANK ACCOUNTS:
+      axios.get('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/allbankaccounts', {
+        headers: {
+          'Authorization': jwtToken
+        }
+      })
+      .then((response) => {
+        console.log(response.data)
+        // For Loop 
+        const temp_result = []
+        for (let i = 0; i < response.data.length; i++) {
+          if (response.data[i]['user_account_id'] == ClientId) {
+            temp_result.push(response.data[i])
+          }
+        }
+        setresponse(temp_result)
+        console.log(temp_result)
+
+        alert("Load Complete")
+        
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("There is an Error.")
+
+      })
+
+    }
+  
 
   // fetch and cache all accounts
   const {data: accounts} = {null: null}
@@ -55,15 +73,28 @@ function Accounts() {
 
   // create a new account
   function createNewAccount() {
-    popAction(
-      'Are you sure?', 
-      "A new account will be created!",
-      'Proceed!',
-      ()=>apiCrud(`/api/createAccount`, 'POST', 'Account created', {
-        accountType: 'saving',
-        accountBalance: '0'
-      })()
-    )
+    const data = {
+      "user_account_id": ClientId,
+      "name": givenName,
+      "email": email
+    }
+    axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/createBankAccount',data,
+    {
+      headers: {
+        'Authorization': jwtToken,
+        'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+        // For Loop 
+        
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("There is an Error.")
+      })
+    
   } 
 
   // deposit
@@ -92,33 +123,38 @@ function Accounts() {
 
   const columns = [
     { 
-      field: 'id', headerName: 'Account Number', minWidth: 130, flex: 2
+      field: 'id', headerName: 'Account Number', flex: 3
     },
     { 
-      field: 'accountBalance', headerName: 'Balance', minWidth: 80, flex: 1
+      field: 'accountBalance', headerName: 'Balance', flex: 3
     },
     { 
-      field: 'accountType', headerName: 'Type', minWidth: 70, flex: 1
+      field: 'accountType', headerName: 'Type',  flex: 3
     },
     { 
-      field: 'customerID', headerName: 'User ID', minWidth: 130, flex: 3
+      field: 'customerID', headerName: 'User ID' , flex: 3
+      // minWidth: 130, flex: 3
     },
     { 
-      field: 'accountStatus', headerName: 'Status', minWidth: 80, flex: 1
+      field: 'accountStatus', headerName: 'Status', flex: 3
     },
     { 
-      field: 'date', headerName: 'Date', type: 'date' , minWidth: 100, flex: 1
+      field: 'Bank_account_Number', headerName: 'Bank Account Name' , flex: 3
     },
+    { 
+      field:"name", headerName:" Account Name ", flex: 3
+    }
   ];
   
-  const rows = accounts?.map(account => (
+  const rows = response_row?.map(account => (
     {
-      id: account.accountNumber,
-      accountBalance: `$${account.accountBalance}`,
-      accountType: account.accountType,
-      customerID: `#${account.customerID}`,
-      accountStatus: account.accountStatus,
-      date: date(account.createdAt),
+      id: account.user_account_id,
+      accountBalance: `$${account.balance}`,
+      accountType: account.type,
+      customerID: `#${ClientId}`,
+      accountStatus: account.is_active,
+      Bank_account_Number: account.bankaccountnumber,
+      name : account.name
     }
   ))
 
@@ -141,6 +177,9 @@ function Accounts() {
             <button onClick={withdraw}>
               Withdraw
             </button>
+            <button onClick={Load}>
+              Load Page
+            </button>
           </div>
 
         </div>
@@ -149,7 +188,7 @@ function Accounts() {
       <div style={{ height: 700, width: '90%' }}>
         <div style={{ display: 'flex', height: '100%' }}>
           <div className="table-container">
-            {accounts &&
+            {response_row &&
             <DataGrid
               autoHeight
               className='table'
@@ -164,6 +203,7 @@ function Accounts() {
                 },
               }}
             />
+
             }
           </div>
         </div>
