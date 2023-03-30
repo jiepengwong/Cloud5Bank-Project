@@ -74,8 +74,8 @@ def create_account():
         'name': data['name'],
         'email': data['email'],
         "balance": 0,
-        'is_active': True,
-        'type': "admin"
+        'is_active': False,
+        'type': "user"
     }
     print(account)
     bank_accounts_table.put_item(Item=account)
