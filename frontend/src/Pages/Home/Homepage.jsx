@@ -1,7 +1,7 @@
 import './homepage.scss'
 import React from 'react'
 import CustomizedDialogs from '../../components/dialog/Dialog'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 
 import Register from '../../components/register/Register'
 import Login from '../../components/login/Login'
@@ -17,20 +17,50 @@ import axios from 'axios';
 import UserPool from '../../UserPool';
 import { CognitoUserAttribute, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import { getSecretHash } from "../../getSecretHash"; // Import your helper function here
-import { useDispatch } from 'react-redux'
-import { set_access_token, set_id_token,set_roles , set_JWTToken} from "../../redux/features/everythingSlice";
+import { useDispatch ,useSelector } from 'react-redux'
+import { set_access_token, set_id_token, set_roles, set_JWTToken, setClient_ID,setAddress,setEmail,setFamily_Name,setGender,setGivenName}  from "../../redux/features/everythingSlice";
 
 // Import all the Functions from everythingSlice 
 
 function Homepage() {
   const dispatch = useDispatch();
+  // Temporary State: 
+  const [credentials ,setcredentials] = useState(null)
+  const [temp_id_token , set_temp_id_token] = useState(null)
+  const [temp_access_token , set_temp_access_token ] = useState(null)
+  const [temp_role, set_temp_role ] = useState(null);
+  const [temp_refresh_token , set_temp_refresh_token ] = useState(null);
 
   const [username, setusername] = useState("htreborn")
   const [password, setpassword] = useState("Yuxiang1999@")
-  const [isLoggedIn, setLoggedIn] = useState(false)
 
-  const [jiepeng, setjiepeng ] = useState("")
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // If credentials are initialised, then we dispatch it to the global frame
+    if (credentials) {
+      console.log(credentials)
+      console.log(temp_id_token)
+      console.log(temp_access_token)
+      console.log(temp_role)
+      console.log(temp_refresh_token)
+
+      // Push it to Global Frame: 
+      dispatch(setClient_ID(credentials['sub']))
+      dispatch(setAddress(credentials['address']))
+      dispatch(setEmail(credentials['email']))
+      dispatch(setFamily_Name(credentials['family_name']))
+      dispatch(setGender(credentials['gender']))
+      dispatch(setGivenName(credentials['given_name']))
+
+      // Push it to Global Frame
+      dispatch(set_access_token(temp_access_token))
+      dispatch(set_id_token(temp_id_token))
+      dispatch(set_roles(temp_role))
+      dispatch(set_JWTToken(temp_access_token))
+
+    }
+  }, [credentials]);
 
   const onSubmit =  async (event) => {
     event.preventDefault();
@@ -47,27 +77,33 @@ function Homepage() {
       onSuccess: async function(result) {
         alert("You have successfully Logged In.")
         // setLoggedIn(true)
+
         console.log(result)
-
-  
-        const access_token = result.getAccessToken().getJwtToken();
-        const id_token = result.getIdToken();
-        const refresh_id = result.getRefreshToken().getToken()
-
-        console.log(id_token);
-        console.log(access_token);
-        console.log(refresh_id);
-
-        // Push it to global variable 
-        dispatch(set_access_token(result.getAccessToken()))
-        dispatch(set_id_token(result.getIdToken()))
-        dispatch(set_JWTToken(result.getAccessToken().getJwtToken()))
+        set_temp_id_token(result.getIdToken());
+        set_temp_access_token(result.getAccessToken().getJwtToken());
+        set_temp_refresh_token(result.getRefreshToken().getToken());
+        
+        // After I get back the Access token / ID Token, I will push the States to global state. 
+        // Retrieve user attributes from the Cognito User Pool
+      // Retrieve user attributes from the Cognito User Pool
+      cognitoUser.getUserAttributes(function(err, attributes) {
+        if (err) {
+          console.error(err);
+        } else {
+          // Convert the array of user attributes to an object
+          const userAttributes = attributes.reduce((obj, attribute) => {
+            obj[attribute.getName()] = attribute.getValue();
+            return obj;
+          }, {});
+          setcredentials(userAttributes);
+        }
+      });
 
         if (username == "weiting123") {
-          dispatch(set_roles("Admin"))
+          set_temp_role("Admin")
         }
         else{
-          dispatch(set_roles("Customer"))
+          set_temp_role("Customer")
         }
 
       },
@@ -100,14 +136,6 @@ function Homepage() {
         });
       }
     });
-
-    // const navigate = useNavigate();
-    // if(username == 'htreborn'){
-    //   navigate('/userdashboard')
-    // }
-    // else{
-    //   navigate('/adminpanel')
-    // }
 
   };
 
@@ -211,6 +239,8 @@ function Homepage() {
         }
       });
     };
+    const globalJWT = useSelector((state) => state.every.jwtToken);
+
 
   return (
     <div className='homepage'>
@@ -225,9 +255,10 @@ function Homepage() {
         {/* <section> */}
 
           <h1>The bank you trust</h1>
+        
           <p> Normal User details [UserDashboard] : Username: "htreborn",Password: "Yuxiang1999@" </p>
           <p> Admin User details [AdminDashboard]: Username: "weiting123",Password: "weiting123@A" </p>
-
+          <p> hi {globalJWT}</p>
 
           {/* Grid  */}
           <Grid container className="child-container">

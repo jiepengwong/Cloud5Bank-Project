@@ -7,10 +7,42 @@ import popCrud from "../../../api/popCrud";
 import useGetUsersAccounts from "../../../hooks/queries/users/useGetUserAccounts";
 import popAction from '../../../helpers/popAction'
 
+import { useSelector } from "react-redux";
+import {useState, useEffect} from "react";
+import axios from 'axios';
+
 function Accounts() {
 
+  const roles = useSelector(state => state.every.roles);
+  const ClientId = useSelector(state => state.every.clientID);
+  const address = useSelector(state => state.every.address);
+  const email = useSelector(state => state.every.email);
+  const family_name = useSelector(state => state.every.family_name);
+  const gender = useSelector(state => state.every.gender);
+  const givenName = useSelector(state => state.every.givenName);
+
+  const idToken = useSelector(state => state.every.id_token);
+  console.log(idToken)
+  const jwtToken = idToken.jwtToken;
+  console.log(jwtToken)
+
+  useEffect(() => {
+    // AXIOS CALL TO GET ALL THE BANK ACCOUNTS:
+    axios.get('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/alltransactions', {
+      headers: {
+        'Authorization': jwtToken
+      }
+    })
+    .then((response) => {
+      console.log(response.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  },[])
+
   // fetch and cache all accounts
-  const {data: accounts} = useGetUsersAccounts()
+  const {data: accounts} = {null: null}
   // console.log(accounts);
 
   // convert date to string
@@ -94,7 +126,7 @@ function Accounts() {
     <div className="accounts">
 
       <div className="title">
-        <h2>Accounts</h2>
+        <h2>Accounts belong to {givenName}</h2>
 
         <div className="account-actions">
 

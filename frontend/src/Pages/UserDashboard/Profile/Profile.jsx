@@ -4,9 +4,16 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useContext } from "react";
 import { AuthContext } from "../../../context/Auth-context";
 
-function Profile() {
+import { useSelector } from "react-redux";
 
-  const {userName, userPhone, userEmail} = useContext(AuthContext)
+function Profile() {
+  const roles = useSelector(state => state.every.roles);
+  const ClientId = useSelector(state => state.every.clientID);
+  const address = useSelector(state => state.every.address);
+  const email = useSelector(state => state.every.email);
+  const family_name = useSelector(state => state.every.family_name);
+  const gender = useSelector(state => state.every.gender);
+  const givenName = useSelector(state => state.every.givenName);
 
   return (
     <div className="profile">
@@ -21,14 +28,26 @@ function Profile() {
 
         <div className="profile-details">
 
-          <p>Full Name:</p>
-          <h3>{userName}</h3>
+          <p>Client ID</p>
+          <h3>{ClientId}</h3>
 
-          <p>Phone Number:</p>
-          <h3>{userPhone}</h3>
+          <p>Role:</p>
+          <h3>{roles}</h3>
 
-          <p>Email:</p>
-          <h3>{userEmail}</h3>
+          <p>Address:</p>
+          <h3>{address}</h3>
+          
+          <p>Email: </p>
+          <h3>{email}</h3>
+
+          <p>Family Name: </p>
+          <h3>{family_name}</h3>
+
+          <p>Gender: </p>
+          <h3>{gender}</h3>
+
+          <p>Given Name: </p>
+          <h3>{givenName}</h3>
           
         </div>
 
