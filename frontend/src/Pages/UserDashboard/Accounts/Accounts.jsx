@@ -87,7 +87,7 @@ function Accounts() {
     })
       .then((response) => {
         console.log(response.data)
-        // For Loop 
+        alert("Account Created. ")
         
       })
       .catch((error) => {
@@ -99,31 +99,68 @@ function Accounts() {
 
   // deposit
   function deposit() {
-    popCrud(
-      'Deposit', 
-      'Deposit', 
-      ['accountNumber', 'amount'], 
-      `/api/recharge`,
-      'POST',
-      'Successful transaction'
-    )
+    // Ask User for how much they want to put inside: 
+    let amount = prompt("How much do you want to deposit inside? ");
+
+    let toWhichAccount = prompt("Which Bank Account are you depositing to ? ");
+    
+    const data = {
+      "fundsFromBank":  parseInt(amount),
+      "user_account_id": toWhichAccount,
+    };
+
+    axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/depositFromBank',data,
+    {
+      headers: {
+        'Authorization': jwtToken,
+        'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+        alert("Successful: Transferred " + amount + " to " + toWhichAccount)
+        
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("There is an Error.")
+      })
+
   }
 
   // withdraw
   function withdraw() {
-    popCrud(
-      'Withdraw', 
-      'Withdraw', 
-      ['accountNumber', 'amount'], 
-      `/api/withdraw`,
-      'POST',
-      'Successful transaction'
-    )
+    let amount = prompt("How much do you want to withdraw? ");
+
+    let toWhichAccount = prompt("Which Bank Account are you withdrawing from?");
+    
+    const data = {
+      "fundsToBank":  parseInt(amount),
+      "user_account_id": toWhichAccount
+  }
+
+    axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/withdrawToBank',data,
+    {
+      headers: {
+        'Authorization': jwtToken,
+        'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+        alert("Successful: Withdrawn " + amount + " to BankAccount(" + toWhichAccount + ")")
+        
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("There is an Error.")
+      })
+
   }
 
   const columns = [
     { 
-      field: 'id', headerName: 'Account Number', flex: 3
+      field: 'id', headerName: 'Account Number', flex: 10
     },
     { 
       field: 'accountBalance', headerName: 'Balance', flex: 3
@@ -139,7 +176,7 @@ function Accounts() {
       field: 'accountStatus', headerName: 'Status', flex: 3
     },
     { 
-      field: 'Bank_account_Number', headerName: 'Bank Account Name' , flex: 3
+      field: 'Bank_account_Number', headerName: 'Bank Account Name' , flex: 10
     },
     { 
       field:"name", headerName:" Account Name ", flex: 3
