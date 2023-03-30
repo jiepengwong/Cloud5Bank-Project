@@ -10,6 +10,7 @@ import { Button, TextField, Typography } from '@mui/material';import Box from '@
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 // AWS Portion
@@ -24,12 +25,14 @@ import { set_access_token, set_id_token,set_roles , set_JWTToken} from "../../re
 function Homepage() {
   const dispatch = useDispatch();
 
-  const [username, setusername] = useState("")
-  const [password, setpassword] = useState("")
+  const [username, setusername] = useState("htreborn")
+  const [password, setpassword] = useState("Yuxiang1999@")
   const [isLoggedIn, setLoggedIn] = useState(false)
+
+  const [jiepeng, setjiepeng ] = useState("")
   const navigate = useNavigate();
 
-  const onSubmit = (event) => {
+  const onSubmit =  async (event) => {
     event.preventDefault();
 
     const authDetails = new AuthenticationDetails({
@@ -41,14 +44,19 @@ function Homepage() {
       Pool: UserPool,
     });
     cognitoUser.authenticateUser(authDetails, {
-      onSuccess: function(result) {
+      onSuccess: async function(result) {
         alert("You have successfully Logged In.")
         // setLoggedIn(true)
-        console.log('Access token:', result.getAccessToken().getJwtToken());
-        console.log('ID token:', result.getIdToken().getJwtToken());
-        console.log('Refresh token:', result.getRefreshToken().getToken());
-        setLoggedIn(true)
-        console.log(isLoggedIn)
+        console.log(result)
+
+  
+        const access_token = result.getAccessToken().getJwtToken();
+        const id_token = result.getIdToken();
+        const refresh_id = result.getRefreshToken().getToken()
+
+        console.log(id_token);
+        console.log(access_token);
+        console.log(refresh_id);
 
         // Push it to global variable 
         dispatch(set_access_token(result.getAccessToken()))
@@ -61,9 +69,6 @@ function Homepage() {
         else{
           dispatch(set_roles("Customer"))
         }
-
-        // Navigate them out.
-
 
       },
       onFailure: function(err) {
@@ -228,11 +233,11 @@ function Homepage() {
           <Grid container className="child-container">
 
             <Grid item xs={12} marginBottom={3}>
-              <TextField sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
+              <TextField value={"htreborn"} sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
             </Grid>
 
             <Grid item xs={12}>
-              <TextField sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
+              <TextField value={"Yuxiang1999@"} sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
             </Grid>
             
             <Grid item xs={12}>
