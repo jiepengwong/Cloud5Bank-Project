@@ -50,7 +50,7 @@ def processTransferDeposit(fundsFromBank, user_account_id):
     print("Updated Successfully")
     # Create the transaction
     print("========= Creating Transaction ==========")
-    transaction_json_data_useraccount = json.dumps({'fromAccountUserId': None , 'fromAccountBankNumber': None, 'transactiontype': "Deposited From External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsFromBank})
+    transaction_json_data_useraccount = json.dumps({'fromAccountUserId': userAccount["user_account_id"] , 'fromAccountBankNumber': None, 'transactiontype': "Deposited From External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsFromBank})
     fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_useraccount))
     return jsonify({'message': 'Successfully deposited from external bank!','user_account_id': user_account_id, "bankaccountnumber": userAccount['bankaccountnumber'], 'amountreceived': fundsFromBank,"oldbalance": int(currentUserAccountBalance),  "currentbalance": int(updateUserAccountResponse['balance'])}), 200
 
@@ -89,7 +89,7 @@ def processTransferWithdrawToBank(fundsToBank, user_account_id):
     print("Updated Successfully")
     # Create the transaction
     print("========= Creating Transaction ==========")
-    transaction_json_data_useraccount = json.dumps({'fromAccountUserId': None , 'fromAccountBankNumber': None, 'transactiontype': "Deposited From External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsToBank})
+    transaction_json_data_useraccount = json.dumps({'fromAccountUserId': userAccount["user_account_id"] , 'fromAccountBankNumber': None, 'transactiontype': "Withdrawn To External Bank" , 'toAccountUserId': None, 'toAccountBankNumber': None, 'amount': fundsToBank})
     fromAccountTransaction = invoke_http(transaction_URL,method="POST", json=json.loads(transaction_json_data_useraccount))
     return jsonify({'message': 'Successfully withdrawn to external bank!','user_account_id': user_account_id, "bankaccountnumber": userAccount['bankaccountnumber'], "amountwithdrawn": fundsToBank, "oldbalance": int(currentUserAccountBalance),"currentbalance": int(updateUserAccountResponse['balance'])}), 200
 
