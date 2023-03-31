@@ -135,11 +135,15 @@ function Accounts() {
     let toWhichAccount = prompt("Which Bank Account are you withdrawing from?");
     
     const data = {
-      "fundsToBank":  parseInt(amount),
+      "fundsToBank":  amount,
       "user_account_id": toWhichAccount
   }
+    //   const data = {
+    //     "fundsToBank":  10,
+    //     "user_account_id": "serial3"
+    // }
 
-    axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/withdrawToBank',data,
+    axios.post('http://cloud5bank-alb4-208745958.ap-southeast-1.elb.amazonaws.com:5003/withdrawToBank',data,
     {
       headers: {
         'Authorization': jwtToken,
