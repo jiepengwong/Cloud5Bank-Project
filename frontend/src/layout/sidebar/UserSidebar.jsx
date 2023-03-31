@@ -28,7 +28,7 @@ function Sidebar(props) {
 
         {!isSidebarActive &&
           <p className="logo">
-            Cloud 5 Bank
+            Cloud 5 Bank 
           </p>
         }
 
