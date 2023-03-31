@@ -6,103 +6,76 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { transferSchema } from "../../../schemas/transferSchema";
 import popAction from "../../../helpers/popAction";
 import apiCrud from "../../../api/apiCrud";
+import { TextField } from "@mui/material";
+import Button from '@mui/material/Button';
+
+import {useState, useEffect} from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Transfer() {
 
-  // handle user inputs
-	const { values, errors, touched, handleBlur, handleChange, handleSubmit} = useFormik({
-		initialValues: {
-			accountNumber: '',
-			amount: '',
-			destinationAccountNumber: '',
-		},
-		validationSchema: transferSchema,
-		onSubmit: (values)=> { 
-      popAction(
-        'Are you sure?', 
-        `$${values.amount} will be tranfered from account ${values.accountNumber} to account ${values.destinationAccountNumber}`,
-        'Proceed!',
-        ()=>apiCrud(`/api/transfer`, 'POST', 'Successful transaction', {
-          accountNumber: values.accountNumber,
-          amount: values.amount,
-          destinationAccountNumber: values.destinationAccountNumber,
-        })()
-      )
-		}
-})
+  const [accountFrom, setAccountFrom] = useState("");
+  const [tempamount, set_tempamount] = useState("");
+  const [accountTo, setAccountTo] = useState("");
+
+  const roles = useSelector(state => state.every.roles);
+  const ClientId = useSelector(state => state.every.clientID);
+  const address = useSelector(state => state.every.address);
+  const email = useSelector(state => state.every.email);
+  const family_name = useSelector(state => state.every.family_name);
+  const gender = useSelector(state => state.every.gender);
+  const givenName = useSelector(state => state.every.givenName);
+
+  const idToken = useSelector(state => state.every.id_token);
+  console.log(idToken)
+  const jwtToken = idToken.jwtToken;
+  console.log(jwtToken)
+
+  const Transfer = () => {
+    // Axios 
+    const data = {
+      "amount": tempamount,
+      "fromAccountUserid": accountFrom,
+      "toAccountUserid": accountTo
+    };
+
+    axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/transferfunds',data,
+    {
+      headers: {
+        'Authorization': jwtToken,
+        'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+        
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("There is an Error.")
+      })
+
+  }
 
   const transferForm =(
 		<main className='transfer-form'>
-      <form action="/home" onSubmit={handleSubmit}>
+      <form>
 
         <div className="input-holder">
           <label>Account Number<span style={{color: 'red'}}> (From)</span></label><br/>
-          <input 
-          type="text" 
-          name="accountNumber"
-          required 
-          placeholder={'Enter an account number'} 
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.accountNumber}
-          />
-          {touched.accountNumber 
-            ? 
-              errors.accountNumber 
-              ? <p className="error">{errors.accountNumber}</p> 
-              : <CheckCircleIcon className='icon'/>
-            :
-            null
-          }
+          <TextField onChange={event => {setAccountFrom(event.target.value)}}></TextField>
         </div>
 
         <div className="input-holder">
           <label>Amount</label><br/>
-          <input 
-          type="text" 
-          name="amount" 
-          required
-          placeholder={'Enter transfer amount'}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.amount}
-          />							
-          {touched.amount 
-            ? 
-              errors.amount 
-              ? <p className="error">{errors.amount}</p> 
-              : <CheckCircleIcon className='icon'/>
-            :
-            null
-          }
+          <TextField onChange={event => {set_tempamount(event.target.value)}} ></TextField>
         </div>
-
         <div className="input-holder">
           <label>Account Number<span style={{color: 'green'}}> (Recipient)</span></label><br/>
-          <input 
-          type="text" 
-          name="destinationAccountNumber"
-          required 
-          placeholder={'Enter an account number'} 
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.destinationAccountNumber}
-          />
-          {touched.destinationAccountNumber 
-            ? 
-              errors.destinationAccountNumber 
-              ? <p className="error">{errors.destinationAccountNumber}</p> 
-              : <CheckCircleIcon className='icon'/>
-            :
-            null
-          }
+          <TextField onChange={event => {setAccountTo(event.target.value)}} ></TextField>
         </div>
-
-        <div className="input-holder">
-          <input type="checkbox" name="checkbox" id="checkbox" required /> <span>I agree to the <a href="https://google.com" target="_blank" rel="noopener noreferrer">terms of use</a></span>.
-        </div>
-
-        <button id="sub_btn" type="submit">Transfer</button>
+        <Button onSubmit={() => Transfer()}>Transfer</Button>
 
       </form>
 		</main>
