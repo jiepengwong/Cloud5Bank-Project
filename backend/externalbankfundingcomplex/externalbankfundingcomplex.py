@@ -14,6 +14,9 @@ details_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.am
 balance_bankaccount_URL = "http://cloud5bank-alb2-46227631.ap-southeast-1.elb.amazonaws.com:5000/bankAccountBalance"
 transaction_URL = "http://cloud5bank-alb1-518477221.ap-southeast-1.elb.amazonaws.com:5001/createTransactionLog"
 
+@app.route('/')
+def hello():
+    return "External Complex Connected"
 
 # Logic:
 # To post: (user_account_id, amount_user_wants)
