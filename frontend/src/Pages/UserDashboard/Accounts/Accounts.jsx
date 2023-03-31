@@ -94,6 +94,17 @@ function Accounts() {
         console.log(error)
         alert("There is an Error.")
       })
+
+      axios.put(`https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/bankAccountStatus/`, {
+        is_active: false, 
+        user_account_id: ClientId} , {headers: {'Authorization': jwtToken}} )
+      .then((response) => {
+        alert("Account deactivated successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Success Code: 201");
+      });
     
   } 
 
@@ -170,14 +181,14 @@ function Accounts() {
       field: 'accountBalance', headerName: 'Balance', flex: 3
     },
     { 
-      field: 'accountType', headerName: 'Type',  flex: 3
+      field: 'accountType', headerName: 'Type',  flex: 1
     },
     { 
-      field: 'customerID', headerName: 'User ID' , flex: 3
+      field: 'customerID', headerName: 'User ID' , flex: 1
       // minWidth: 130, flex: 3
     },
     { 
-      field: 'accountStatus', headerName: 'Status', flex: 3
+      field: 'accountStatus', headerName: 'Status', flex: 2
     },
     { 
       field: 'Bank_account_Number', headerName: 'Bank Account Name' , flex: 10
