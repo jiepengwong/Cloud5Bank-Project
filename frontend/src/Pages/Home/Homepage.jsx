@@ -1,4 +1,5 @@
 import './homepage.scss'
+import { Icon } from '@iconify/react';
 import React from 'react'
 import CustomizedDialogs from '../../components/dialog/Dialog'
 import { useState , useEffect } from 'react'
@@ -31,8 +32,14 @@ function Homepage() {
   const [temp_role, set_temp_role ] = useState(null);
   const [temp_refresh_token , set_temp_refresh_token ] = useState(null);
 
-  const [username, setusername] = useState("htreborn")
-  const [password, setpassword] = useState("Yuxiang1999@")
+  // const [username, setusername] = useState("htreborn")
+  // const [password, setpassword] = useState("Yuxiang1999@")
+
+  // const [username, setusername] = useState("weiting123")
+  // const [password, setpassword] = useState("weiting123@A")
+
+  const [username, setusername] = useState("")
+  const [password, setpassword] = useState("")
 
   const navigate = useNavigate();
 
@@ -247,28 +254,46 @@ function Homepage() {
       {/* <div className="parent-container"> */}
       <img src='https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L3JtMjA4YmF0Y2g0LWt3YW4tMDEtZy5qcGc.jpg' alt='bg'  className='homepage-bg'></img>
       <header>
-        <img src='https://api.iconify.design/bxs/bank.svg?color=white' alt='LOGO'></img>
-        <h2>Sprints Bank</h2>
+        {/* <img src='https://api.iconify.design/bxs/bank.svg?color=white' alt='LOGO'></img> */}
+        <Icon icon="oi:cloud" color="skyblue" width="80" height="80" />
+        <h2>Cloud5Bank</h2>
+        <Icon icon="oi:cloud" color="skyblue" width="80" height="80" />
       </header>
 
       <main>
         {/* <section> */}
 
-          <h1>The bank you trust</h1>
+          <h1>The ONLY bank you trust</h1>
         
           <p> Normal User details [UserDashboard] : Username: "htreborn",Password: "Yuxiang1999@" </p>
           <p> Admin User details [AdminDashboard]: Username: "weiting123",Password: "weiting123@A" </p>
-          <p> hi {globalJWT}</p>
+          {/* <p> hi {globalJWT}</p> */}
 
           {/* Grid  */}
           <Grid container className="child-container">
 
-            <Grid item xs={12} marginBottom={3}>
+            {/* <Grid item xs={12} marginBottom={3}>
               <TextField value={"htreborn"} sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
             </Grid>
 
             <Grid item xs={12}>
               <TextField value={"Yuxiang1999@"} sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
+            </Grid> */}
+
+            {/* <Grid item xs={12} marginBottom={3}>
+              <TextField value={"weiting123"} sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField value={"weiting123@A"} sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
+            </Grid> */}
+
+            <Grid item xs={12} marginBottom={3}>
+              <TextField  sx={{backgroundColor:"white"}} fullWidth label="Username" onChange={event => setusername(event.target.value)}></TextField>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField sx={{backgroundColor:"white"}} fullWidth label="Password" onChange={event => setpassword(event.target.value)}></TextField>
             </Grid>
             
             <Grid item xs={12}>
@@ -321,7 +346,7 @@ function Homepage() {
 
             <Grid item xs={12}>
                 <Button onClick={event => onclick(event)}>Register</Button>
-            </Grid>
+            </Grid> 
 
 
           </Grid>

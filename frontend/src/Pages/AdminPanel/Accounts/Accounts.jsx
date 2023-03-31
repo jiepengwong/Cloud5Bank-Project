@@ -7,93 +7,151 @@ import useGetAccounts from '../../../hooks/queries/admin/useGetAccounts'
 import popAction from "../../../helpers/popAction";
 import apiCrud from "../../../api/apiCrud";
 
+import { useSelector } from "react-redux";
+import {useState, useEffect} from "react";
+import axios from 'axios';
+
 function Accounts() {
 
-  // fetch and cache all accounts
-  const {data: accounts} = useGetAccounts()
-  // console.log(accounts);
+  const roles = useSelector(state => state.every.roles);
+  const ClientId = useSelector(state => state.every.clientID);
+  const address = useSelector(state => state.every.address);
+  const email = useSelector(state => state.every.email);
+  const family_name = useSelector(state => state.every.family_name);
+  const gender = useSelector(state => state.every.gender);
+  const givenName = useSelector(state => state.every.givenName);
+  const idToken = useSelector(state => state.every.id_token);
+  console.log(idToken)
+  const jwtToken = idToken.jwtToken;
+  console.log(jwtToken)
 
-  // convert date to string
-  function date(date) {
-    const display = new Date(date)
-    return display.toLocaleDateString('en-GB');
-  }
+  const [bankAccounts, setBankAccounts] = useState([]);
 
-  const usersActions = (params) => (
+  // function Load() {
+    // AXIOS CALL TO GET ALL THE BANK ACCOUNTS:
 
-    params.row.accountStatus !== 'closed' &&
-    
-    <div className='actions'>
-      {params.row.accountStatus === 'active'
-      ?
-        <Button variant="contained" className="deactivate"
-          onClick={() => popAction(
-            'Are you sure?', 
-            "The account will be deactivated!",
-            'Deactivate!',
-            ()=>apiCrud(`/api/approval`, 'POST', 'Account deactivated', {
-              accountNumber: params.row.id,
-              accountStatus: 'pending'
-            })()
-            )}>
-          Deactivate
-        </Button> 
-      :
-        <Button variant="contained" className="activate"
-          onClick={() => popAction(
-            'Are you sure?', 
-            "The account will be activated!",
-            'Activate!',
-            ()=>apiCrud(`/api/approval`, 'POST', 'Account activated', {
-              accountNumber: params.row.id,
-              accountStatus: 'active'
-            })()
-          )}>
-          Activate
-        </Button>            
-      }
-    </div>
-  )
+  useEffect(() => {
+    axios.get('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/allbankaccounts', {
+    headers: {
+      'Authorization': jwtToken
+    }
+    })
+    .then((response) => {
+      console.log(response.data)
+      // const inactiveAccounts = response.data.filter(account => account.is_active === false);
+
+      setBankAccounts(response.data);
+      console.log('hello')
+      console.log( 'These are the bank accounts', bankAccounts)
+
+      alert("Load Complete")
+    })
+    .catch((error) => {
+      console.log(error)
+      alert("There is an Error.")
+    })
+  }, []);
+  // https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/bankAccountStatus/${row.Bank_account_Number
+  const handleActivate = (row) => {
+    axios.put(`https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/bankAccountStatus/`, {
+      is_active: true,
+      user_account_id: row.customerID},   {headers: {'Authorization': jwtToken}} )
+    .then((response) => {
+      setBankAccounts(prevState => {
+        const updatedAccounts = prevState.map(account => {
+          if (account.user_account_id === row.customerID) {
+            account.is_active = true;
+          }
+          return account;
+        });
+        return updatedAccounts;
+      });
+      alert("Account activated successfully");
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Error activating account");
+    });
+  };
+
+
+  // https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/bankAccountStatus/${row.Bank_account_Number}
+  const handleDeactivate = (row) => {
+    axios.put(`https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/bankAccountStatus/`, {
+      is_active: false, 
+      user_account_id: row.customerID},   {headers: {'Authorization': jwtToken}} )
+    .then((response) => {
+      setBankAccounts(prevState => {
+        const updatedAccounts = prevState.map(account => {
+          if (account.user_account_id === row.customerID) {
+            account.is_active = false;
+          }
+          return account;
+        });
+        return updatedAccounts;
+      });
+      alert("Account deactivated successfully");
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Error deactivating account");
+    });
+  };
+
+  const rows = bankAccounts?.map(account => (
+    {
+      id: account.user_account_id,
+      accountBalance: account.balance,
+      accountType: account.type,
+      customerID: account.user_account_id,
+      accountStatus: account.is_active,
+      Bank_account_Number: account.bankaccountnumber,
+      name : account.name
+    }
+  ));
+
+  
 
   const columns = [
     { 
-      field: 'id', headerName: 'Account Number', minWidth: 130, flex: 2
+      field: 'id', headerName: 'Account Number', flex: 10
     },
     { 
-      field: 'accountBalance', headerName: 'Balance', minWidth: 80, flex: 1
+      field: 'accountBalance', headerName: 'Balance', flex: 3
     },
     { 
-      field: 'accountType', headerName: 'Type', minWidth: 70, flex: 1
+      field: 'accountType', headerName: 'Type',  flex: 3
     },
     { 
-      field: 'customerID', headerName: 'User ID', minWidth: 130, flex: 3
+      field: 'customerID', headerName: 'User ID' , flex: 3
+      // minWidth: 130, flex: 3
     },
     { 
-      field: 'accountStatus', headerName: 'Status', minWidth: 80, flex: 1
+      field: 'accountStatus', headerName: 'Status', flex: 3, renderCell: params => (
+        <span>{params.value ? 'Active' : 'Inactive'}</span>
+      )
     },
     { 
-      field: 'date', headerName: 'Date', type: 'date' , minWidth: 100, flex: 1
+      field: 'Bank_account_Number', headerName: 'Bank Account Name' , flex: 10
     },
     { 
-      field: 'actions', 
-      headerName: 'Actions', 
-      minWidth: 110,
-      flex: 1,
-      align: 'center',
-      renderCell: (params) => usersActions(params)
+      field:"name", headerName:" Account Name ", flex: 3
     },
-  ];
-  
-  const rows = accounts?.map(account => (
     {
-      id: account.accountNumber,
-      accountBalance: `$${account.accountBalance}`,
-      accountType: account.accountType,
-      customerID: `#${account.customerID}`,
-      accountStatus: account.accountStatus,
-      date: date(account.createdAt),
+
+    field: 'activate',
+    headerName: 'Activate/ Deactivate',
+    flex: 5,
+    renderCell: params => (
+      params.row.accountStatus === false ? 
+      <Button variant="contained" color="success" onClick={() => handleActivate(params.row)}>Activate</Button>
+      :
+      <Button variant="contained" color="error" onClick={() => handleDeactivate(params.row)}>Deactivate</Button>
+    )
     }
-  ))
+  ];
+
+ 
 
   return (
     <div className="accounts">
@@ -103,9 +161,10 @@ function Accounts() {
       </div>
       
       <div style={{ height: 700, width: '90%' }}>
+        {/* <button onClick={Load}>Page</button> */}
         <div style={{ display: 'flex', height: '100%' }}>
           <div className="table-container">
-            {accounts &&
+            {bankAccounts &&
             <DataGrid
               autoHeight
               className='table'
@@ -121,9 +180,12 @@ function Accounts() {
               }}
             />
             }
+
+            
           </div>
         </div>
       </div>
+
 
     </div>
   )

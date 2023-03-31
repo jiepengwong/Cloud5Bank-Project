@@ -3,17 +3,19 @@
 
 .homepage {
   padding: 2em;
-  height: 200vh;
+  height: 250vh;
   display: flex;
   flex-direction: column;
   gap: 14em;
   color: $clr-light;
-  background-color: $clr-dark;
+  // background-color: $clr-dark;
+  background-color: lighten($clr-dark, 10%);
+
   
   .homepage-bg {
     position: absolute;
     width: 100vw;
-    height: 200vh;
+    height: 250vh;
     mix-blend-mode: multiply;
     top: 0;
     left: 0;
