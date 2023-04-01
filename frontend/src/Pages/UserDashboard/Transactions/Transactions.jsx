@@ -43,9 +43,8 @@ function Transactions() {
       // For Loop 
       const temp_result = []
       for (let i = 0; i < response.data.length; i++) {
-        console.log(response.data[i]['fromAccountBankNumber'])
-        console.log(response.data[i]['toAccountBankNumber'])
-        if (response.data[i]['fromAccountBankNumber'] == ClientId || response.data[i]['toAccountBankNumber'] == ClientId) {
+        console.log(response.data[i])
+        if (response.data[i]['fromAccountUserId'] == ClientId || response.data[i]['toAccountUserId'] == ClientId) {
           temp_result.push(response.data[i])
         }
       }
@@ -69,7 +68,7 @@ function Transactions() {
 
     const columns = [
       { 
-        field: 'date', headerName: 'Date', type: 'date' , minWidth: 100, flex: 1
+        field: 'id', headerName: 'Date', type: 'date' , minWidth: 100, flex: 1
       },
       { 
         field: 'from', headerName: 'From Account', minWidth: 130, flex: 1
@@ -81,16 +80,16 @@ function Transactions() {
         field: 'to', headerName: 'To Account', minWidth: 70, flex: 1
       },
       { 
-        field: 'amount', headerName: 'Amount', minWidth: 150, flex: 2.2
+        field: 'amount', headerName: 'Amount', minWidth: 150, flex: 1
       },
     ];
     
     const rows = responserow?.map(transaction => (
       {
-        date: date(transaction.dateTransaction),
-        from: transaction.fromAccountBankNumber,
+        id: date(transaction.dateTransaction),
+        from: transaction.fromAccountUserId        ,
         transactionType: transaction.transactiontype,
-        to: transaction.toAccountBankNumber,
+        to: transaction.toAccountUserId        ,
         amount: `$${transaction.amount}`,
       }
     ))
@@ -100,7 +99,7 @@ function Transactions() {
 
       <div className="accounts">
         <div className="title">
-          <h2>Transactions</h2>
+          <h2>Transactions with Client ID: {ClientId}</h2>
         </div>
         <div className = "account-actions-bottom">
           <button onClick={() => loadPage()}>

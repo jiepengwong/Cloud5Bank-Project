@@ -33,6 +33,8 @@ function Transfer() {
   console.log(jwtToken)
 
   const Transfer = () => {
+    alert("Click")
+    alert(jwtToken)
     // Axios 
     const data = {
       "amount": tempamount,
@@ -49,6 +51,8 @@ function Transfer() {
     })
       .then((response) => {
         console.log(response.data)
+        alert(response.status);
+        alert("Success")
         
       })
       .catch((error) => {
@@ -75,7 +79,7 @@ function Transfer() {
           <label>Account Number<span style={{color: 'green'}}> (Recipient)</span></label><br/>
           <TextField onChange={event => {setAccountTo(event.target.value)}} ></TextField>
         </div>
-        <Button onSubmit={() => Transfer()}>Transfer</Button>
+        <Button onClick={() => Transfer()}>Transfer</Button>
 
       </form>
 		</main>
