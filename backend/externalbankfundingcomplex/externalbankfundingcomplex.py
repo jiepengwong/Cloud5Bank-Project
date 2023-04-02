@@ -16,7 +16,7 @@ transaction_URL = "http://cloud5bank-alb1-518477221.ap-southeast-1.elb.amazonaws
 
 @app.route('/')
 def hello():
-    return "External Complex Connected"
+    return "External Complex Connected!"
 
 # Logic:
 # To post: (user_account_id, amount_user_wants)

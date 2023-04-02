@@ -28,7 +28,7 @@ bank_accounts_table = dynamodb.Table('bank_accounts')
 ################################################
 @app.route('/')
 def hello():
-    return "Account connected"
+    return "Account connected!"
 
 
 # [GET] Get routes

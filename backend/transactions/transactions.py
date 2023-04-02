@@ -27,7 +27,7 @@ transactions_table = dynamodb.Table('transactions')
 # Default route
 @app.route('/')
 def hello():
-    return "Transactions connected"
+    return "Transactions connected!"
 
 # [GET] Get routes
 @app.route('/alltransactions', methods=['GET'])
