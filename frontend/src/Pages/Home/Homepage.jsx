@@ -72,6 +72,8 @@ function Homepage() {
   const onSubmit =  async (event) => {
     event.preventDefault();
 
+    prompt("Please enter the 6 digit Pin MFA.")
+
     const authDetails = new AuthenticationDetails({
       Username: username,
       Password: password,

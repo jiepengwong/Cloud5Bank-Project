@@ -49,6 +49,7 @@ function Transactions() {
         }
       }
       set_responserow(temp_result)
+      console.log("This is temp result:")
       console.log(temp_result)
 
       alert("Load Complete")
@@ -68,29 +69,37 @@ function Transactions() {
 
     const columns = [
       { 
-        field: 'id', headerName: 'Date', type: 'date' , minWidth: 100, flex: 1
+        field: 'fromAccountBankNumber', headerName: 'From BA', minWidth: 130, flex: 1
       },
       { 
-        field: 'from', headerName: 'From Account', minWidth: 130, flex: 1
+        field: 'fromAccountUserId', headerName: 'From ID', minWidth: 70, flex: 1
       },
       { 
-        field: 'transactionType', headerName: 'Type', minWidth: 70, flex: 1
+        field: 'toAccountBankNumber', headerName: 'To BA', minWidth: 70, flex: 1
       },
       { 
-        field: 'to', headerName: 'To Account', minWidth: 70, flex: 1
+        field: 'toAccountUserId', headerName: 'To ID', minWidth: 130, flex: 2
       },
       { 
-        field: 'amount', headerName: 'Amount', minWidth: 150, flex: 1
+        field: 'transaction_id', headerName: 'Transaction ID', minWidth: 150, flex: 2.2
+      },
+      { 
+        field: 'transactiontype', headerName: 'Transaction Type', minWidth: 150, flex: 2.2
+      },
+      { 
+        field: 'amount', headerName: 'Amount', minWidth: 150, flex: 2.2
       },
     ];
     
     const rows = responserow?.map(transaction => (
       {
-        id: date(transaction.dateTransaction),
-        from: transaction.fromAccountUserId        ,
-        transactionType: transaction.transactiontype,
-        to: transaction.toAccountUserId        ,
-        amount: `$${transaction.amount}`,
+        fromAccountBankNumber: transaction.fromAccountBankNumber,
+        fromAccountUserId: transaction.fromAccountUserId,
+        toAccountBankNumber: transaction.toAccountBankNumber,
+        toAccountUserId: transaction.toAccountUserId,
+        transaction_id: transaction.transaction_id,
+        transactiontype: transaction.transactiontype,
+        amount: transaction.amount
       }
     ))
 
@@ -127,6 +136,7 @@ function Transactions() {
                   cursor: 'pointer'
                 },
               }}
+              getRowId={(rows) => rows.transaction_id}
             />
             }
           </div>

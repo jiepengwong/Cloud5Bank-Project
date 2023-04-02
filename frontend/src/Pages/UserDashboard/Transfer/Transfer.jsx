@@ -33,26 +33,24 @@ function Transfer() {
   console.log(jwtToken)
 
   const Transfer = () => {
-    alert("Click")
-    alert(jwtToken)
     // Axios 
+
     const data = {
-      "amount": tempamount,
-      "fromAccountUserid": accountFrom,
-      "toAccountUserid": accountTo
-    };
+    "amount": parseInt(tempamount),
+    "fromAccountUserid": accountFrom,
+    "toAccountUserid": accountTo
+  }
 
     axios.post('https://zx5e5srl0m.execute-api.ap-southeast-1.amazonaws.com/test2Env/transferfunds',data,
     {
       headers: {
         'Authorization': jwtToken,
-        'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
+        // 'Content-Type': 'application/json', // For JSON data, use 'application/json'. For form data, use 'multipart/form-data'.
       },
     })
       .then((response) => {
         console.log(response.data)
-        alert(response.status);
-        alert("Success")
+        alert("Success!")
         
       })
       .catch((error) => {
@@ -60,6 +58,7 @@ function Transfer() {
         alert("There is an Error.")
       })
 
+  
   }
 
   const transferForm =(
