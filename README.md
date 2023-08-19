@@ -51,21 +51,30 @@ To ensure cost-effective operations, Cloud5Bank focuses on efficient resource al
 #### Maintenance Policy & Monitoring
 Our proactive approach to maintenance involves establishing a comprehensive policy and monitoring system. This enables us to promptly identify and rectify any issues, ensuring that our services remain reliable and uninterrupted.
 
-## Use Case 1: Account Management (Customer Actions)
-
+## Use Case: Account Management
+![image](https://github.com/jiepengwong/Cloud5Bank-Project/assets/76239879/c7d02707-9eed-47b5-9b05-4edeeb1a5030)
+### Customer Actions
 - **Signing up for a new account:** Customers can easily create new accounts through a straightforward registration process.
 - **Requesting bank activation:** A seamless activation request process enables customers to quickly start using their new accounts.
 - **Logging into an existing account:** Secure login mechanisms ensure that customers can access their accounts conveniently and safely.
-- **Depositing, withdrawing, and transferring money:** Cloud5Bank provides a range of financial transaction options to facilitate money management.
 - **Viewing transaction history:** Customers can review their transaction history to stay informed about their financial activities.
 
-## Use Case 2: Account Management (Admin Actions)
-
+### Admin Actions
 - **Approving new accounts:** Administrators can efficiently review and approve new account requests, ensuring a smooth onboarding process.
 - **Declining new accounts:** In cases where additional verification is required, administrators can decline account requests as needed.
 - **Deactivating inactive accounts:** To maintain security and streamline operations, administrators have the ability to deactivate accounts that show prolonged inactivity.
 - **Viewing transaction history:** Administrators can access transaction history to monitor financial activities and ensure compliance with regulations.
-- **Monitoring suspicious transaction activity:** Detecting and addressing suspicious transactions is crucial. Admins can monitor and take appropriate actions to mitigate potential risks.
+
+## Use Case: Money Transfer
+![image](https://github.com/jiepengwong/Cloud5Bank-Project/assets/76239879/49f16975-5890-44f2-a195-84ad8caa23d4)
+### Customer Actions
+- **Depositing money:** Customers can conveniently deposit funds into their accounts through secure and hassle-free methods.
+- **Withdrawing money:** Secure withdrawal processes ensure that customers can access their funds as needed.
+- **Transferring money:** Cloud5Bank facilitates easy money transfers between accounts, providing customers with a seamless experience.
+
+### Admin Actions
+- **Monitoring transactions:** Administrators can monitor all transactions to identify any unusual or suspicious activity.
+- **Addressing issues:** In case of transaction-related issues, administrators can efficiently address customer inquiries and ensure swift issue resolution.
 
 ## Architecture Diagrams
 
