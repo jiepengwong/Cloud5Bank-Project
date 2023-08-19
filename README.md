@@ -86,8 +86,9 @@ Some notable decisions include:
 - **ALBs Usage:** In addressing challenges with inter-container communication, Application Load Balancers (ALBs) were employed as an alternative to service discovery mechanisms.
 - **Exclusion of Services:** To maintain project completion and cost-effectiveness, services like Glue and DynamoDB streams were omitted.
 
-For more in-depth insights into the decision-making process and detailed AWS configurations, refer to our comprehensive report available in our repository.
+For more in-depth insights into the decision-making process and detailed AWS configurations, refer to our comprehensive report available at the link below.
 
-*Note: You can find the detailed architecture diagrams and decision rationale in the project repository.*
+Report:
+https://drive.google.com/file/d/1POVVyP399eLNETrMVINhSB40G883EG_M/view?usp=sharing
 
-For additional information, consult our detailed report, which provides an extensive breakdown of our decision-making process and the specific AWS configurations we implemented.
+*For additional information, consult our detailed report, which provides an extensive breakdown of our decision-making process and the specific AWS configurations we implemented*.
